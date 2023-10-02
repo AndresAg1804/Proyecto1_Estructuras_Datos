@@ -23,8 +23,12 @@ public:
     int leerfil(const std::string& nombreArchivo);
     Nodo* inicio;
     Nodo* jugador;
-	Tabla(const std::string& nombreArchivo);
-	std::string toString();
+    Tabla(const std::string& nombreArchivo);
+    std::string toString();
     void START();
-    int getMove();
+    char getMove();
+    bool moveUp();
+    bool moveDown();
+    bool moveLeft();
+    bool moveRight();
 };
