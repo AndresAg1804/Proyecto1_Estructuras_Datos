@@ -3,10 +3,13 @@
 #include<fstream>
 #include<sstream>
 #include <cstdlib>
+#include<conio.h>
+#include<Windows.h>
 
 class Tabla {
 public:
     struct Nodo {
+        bool punto;
         char data;
         struct Nodo* up;
         struct Nodo* down;

@@ -153,13 +153,18 @@ Tabla::Tabla(const std::string& nombreArchivo)
 
                     if (c == '@') {
                         this->jugador = this->matrix[row][col]; //Para saber donde esta el jugador siempre
+                        this->matrix[row][col]->punto = false;
                     }
 
                     if (c == ',') {
                         this->matrix[row][col]->setdata(' ');
+                        this->matrix[row][col]->punto = false;
                     }
                     else {
                         this->matrix[row][col]->setdata(c);
+                        if (c == '.') {
+                            this->matrix[row][col]->punto = true;
+                        }
                     }
 
                     col++;
@@ -178,7 +183,6 @@ std::string Tabla::toString() {
     for (int i = 0; i < fil; i++) {
         for (int j = 0; j < col; j++) {
             char cell = this->matrix[i][j]->data;
-
             switch (cell) {
             case '@':
                 s << ANSI_CYAN << cell << ANSI_RESET;  // Cyan color for the player character
@@ -226,7 +230,7 @@ char Tabla::getMove() {
         std::cout << '\n' << '\n';
 
         try {
-            std::cin >> op;
+            op = _getch();
             std::system("cls");
 
             // Verifica si el movimiento es válido
@@ -260,19 +264,17 @@ bool Tabla::moveUp() {
     if (this->jugador->up) {
         char nextUp = this->jugador->up->data;
         char previousData = this->jugador->data;
-        bool punto = false;
 
         if (nextUp == ' ') {
             this->jugador->up->data = '@';
             this->jugador->data = ' ';
-            this->jugador = this->jugador->up;
-            if (punto) {
+            if (this->jugador->punto==true) {
                 this->jugador->data = '.';
             }
+            this->jugador = this->jugador->up;
             return true;
         }
         else if (nextUp == '.') {
-            punto = true;
             if (previousData == '.') {
                 this->jugador->up->data = '@';
                 this->jugador->data = ' ';
@@ -281,11 +283,14 @@ bool Tabla::moveUp() {
                 this->jugador->up->data = '@';
                 this->jugador->data = ' ';
             }
+            if (this->jugador->punto==true) {
+                this->jugador->data = '.';
+            }
             this->jugador = this->jugador->up;
             return true;
         }
         else if (nextUp == '$') {
-            char nextNextUp = this->jugador->up->up ? this->jugador->up->up->data : ' ';
+            char nextNextUp = this->jugador->up->up->data;
             if (nextNextUp == ' ' || nextNextUp == '.') {
                 if (nextNextUp == '.') {
                     this->jugador->up->up->data = '!';
@@ -295,7 +300,7 @@ bool Tabla::moveUp() {
                 }
                 this->jugador->up->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->up;
@@ -303,42 +308,46 @@ bool Tabla::moveUp() {
             }
         }
         else if (nextUp == '!') {
-            char nextNextUp = this->jugador->up->up ? this->jugador->up->up->data : ' ';
-            if (nextNextUp == ' ' || nextNextUp == '.') {
+            char nextNextUp = this->jugador->up->up->data;
+            if (nextNextUp == ' ') {
+                this->jugador->up->up->data = '$';
+                this->jugador->up->data = '@';
+                this->jugador->data = ' ';
+                if (this->jugador->punto==true) {
+                    this->jugador->data = '.';
+                }
+                this->jugador = this->jugador->up;
+                return true;
+            }
+            if (nextNextUp == '.') {
                 this->jugador->up->up->data = '!';
                 this->jugador->up->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto == true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->up;
                 return true;
             }
         }
-        if (punto) {
-            this->jugador->data = '.';
-        }
     }
-
     return false;
 }
 bool Tabla::moveDown() {
     if (this->jugador->down) {
         char nextDown = this->jugador->down->data;
         char previousData = this->jugador->data;
-        bool punto = false;
 
         if (nextDown == ' ') {
             this->jugador->down->data = '@';
             this->jugador->data = ' ';
-            this->jugador = this->jugador->down;
-            if (punto) {
+            if (this->jugador->punto==true) {
                 this->jugador->data = '.';
             }
+            this->jugador = this->jugador->down;
             return true;
         }
         else if (nextDown == '.') {
-            punto = true;
             if (previousData == '.') {
                 this->jugador->down->data = '@';
                 this->jugador->data = ' ';
@@ -347,11 +356,14 @@ bool Tabla::moveDown() {
                 this->jugador->down->data = '@';
                 this->jugador->data = ' ';
             }
+            if (this->jugador->punto==true) {
+                this->jugador->data = '.';
+            }
             this->jugador = this->jugador->down;
             return true;
         }
         else if (nextDown == '$') {
-            char nextNextDown = this->jugador->down->down ? this->jugador->down->down->data : ' ';
+            char nextNextDown = this->jugador->down->down->data;
             if (nextNextDown == ' ' || nextNextDown == '.') {
                 if (nextNextDown == '.') {
                     this->jugador->down->down->data = '!';
@@ -361,7 +373,7 @@ bool Tabla::moveDown() {
                 }
                 this->jugador->down->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->down;
@@ -369,20 +381,27 @@ bool Tabla::moveDown() {
             }
         }
         else if (nextDown == '!') {
-            char nextNextDown = this->jugador->down->down ? this->jugador->down->down->data : ' ';
-            if (nextNextDown == ' ' || nextNextDown == '.') {
-                this->jugador->down->down->data = '!';
+            char nextNextDown = this->jugador->down->down->data;
+            if (nextNextDown == ' ') {
+                this->jugador->down->down->data = '$';
                 this->jugador->down->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->down;
                 return true;
             }
-        }
-        if (punto) {
-            this->jugador->data = '.';
+            if (nextNextDown == '.') {
+                this->jugador->down->down->data = '!';
+                this->jugador->down->data = '@';
+                this->jugador->data = ' ';
+                if (this->jugador->punto == true) {
+                    this->jugador->data = '.';
+                }
+                this->jugador = this->jugador->down;
+                return true;
+            }
         }
     }
 
@@ -393,19 +412,17 @@ bool Tabla::moveLeft() {
     if (this->jugador->left) {
         char nextLeft = this->jugador->left->data;
         char previousData = this->jugador->data;
-        bool punto = false;
 
         if (nextLeft == ' ') {
             this->jugador->left->data = '@';
             this->jugador->data = ' ';
-            this->jugador = this->jugador->left;
-            if (punto) {
+            if (this->jugador->punto==true) {
                 this->jugador->data = '.';
             }
+            this->jugador = this->jugador->left;
             return true;
         }
         else if (nextLeft == '.') {
-            punto = true;
             if (previousData == '.') {
                 this->jugador->left->data = '@';
                 this->jugador->data = ' ';
@@ -414,11 +431,14 @@ bool Tabla::moveLeft() {
                 this->jugador->left->data = '@';
                 this->jugador->data = ' ';
             }
+            if (this->jugador->punto==true) {
+                this->jugador->data = '.';
+            }
             this->jugador = this->jugador->left;
             return true;
         }
         else if (nextLeft == '$') {
-            char nextNextLeft = this->jugador->left->left ? this->jugador->left->left->data : ' ';
+            char nextNextLeft = this->jugador->left->left->data;
             if (nextNextLeft == ' ' || nextNextLeft == '.') {
                 if (nextNextLeft == '.') {
                     this->jugador->left->left->data = '!';
@@ -428,7 +448,7 @@ bool Tabla::moveLeft() {
                 }
                 this->jugador->left->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->left;
@@ -436,20 +456,27 @@ bool Tabla::moveLeft() {
             }
         }
         else if (nextLeft == '!') {
-            char nextNextLeft = this->jugador->left->left ? this->jugador->left->left->data : ' ';
-            if (nextNextLeft == ' ' || nextNextLeft == '.') {
-                this->jugador->left->left->data = '!';
+            char nextNextLeft = this->jugador->left->left->data;
+            if (nextNextLeft == ' ') {
+                this->jugador->left->left->data = '$';
                 this->jugador->left->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->left;
                 return true;
             }
-        }
-        if (punto) {
-            this->jugador->data = '.';
+            if (nextNextLeft == '.') {
+                this->jugador->left->left->data = '!';
+                this->jugador->left->data = '@';
+                this->jugador->data = ' ';
+                if (this->jugador->punto == true) {
+                    this->jugador->data = '.';
+                }
+                this->jugador = this->jugador->left;
+                return true;
+            }
         }
     }
 
@@ -460,19 +487,17 @@ bool Tabla::moveRight() {
     if (this->jugador->right) {
         char nextRight = this->jugador->right->data;
         char previousData = this->jugador->data;
-        bool punto = false;
 
         if (nextRight == ' ') {
             this->jugador->right->data = '@';
             this->jugador->data = ' ';
-            this->jugador = this->jugador->right;
-            if (punto) {
+            if (this->jugador->punto==true) {
                 this->jugador->data = '.';
             }
+            this->jugador = this->jugador->right;
             return true;
         }
         else if (nextRight == '.') {
-            punto = true;
             if (previousData == '.') {
                 this->jugador->right->data = '@';
                 this->jugador->data = ' ';
@@ -481,11 +506,14 @@ bool Tabla::moveRight() {
                 this->jugador->right->data = '@';
                 this->jugador->data = ' ';
             }
+            if (this->jugador->punto==true) {
+                this->jugador->data = '.';
+            }
             this->jugador = this->jugador->right;
             return true;
         }
         else if (nextRight == '$') {
-            char nextNextRight = this->jugador->right->right ? this->jugador->right->right->data : ' ';
+            char nextNextRight = this->jugador->right->right->data;
             if (nextNextRight == ' ' || nextNextRight == '.') {
                 if (nextNextRight == '.') {
                     this->jugador->right->right->data = '!';
@@ -495,7 +523,7 @@ bool Tabla::moveRight() {
                 }
                 this->jugador->right->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->right;
@@ -503,20 +531,27 @@ bool Tabla::moveRight() {
             }
         }
         else if (nextRight == '!') {
-            char nextNextRight = this->jugador->right->right ? this->jugador->right->right->data : ' ';
-            if (nextNextRight == ' ' || nextNextRight == '.') {
-                this->jugador->right->right->data = '!';
+            char nextNextRight = this->jugador->right->right->data;
+            if (nextNextRight ==' '){
+                this->jugador->right->right->data = '$';
                 this->jugador->right->data = '@';
                 this->jugador->data = ' ';
-                if (punto) {
+                if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
                 this->jugador = this->jugador->right;
                 return true;
             }
-        }
-        if (punto) {
-            this->jugador->data = '.';
+            if (nextNextRight == '.') {
+                this->jugador->right->right->data = '!';
+                this->jugador->right->data = '@';
+                this->jugador->data = ' ';
+                if (this->jugador->punto == true) {
+                    this->jugador->data = '.';
+                }
+                this->jugador = this->jugador->right;
+                return true;
+            }
         }
     }
 
