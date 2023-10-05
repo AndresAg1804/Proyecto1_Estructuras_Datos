@@ -94,92 +94,163 @@ int Tabla::leerfil(const std::string& nombreArchivo)
     return conta;
 }
 
-Tabla::Tabla(const std::string& nombreArchivo)
-{
+Tabla::Tabla(const std::string& nombreArchivo) {
     this->inicio = nullptr;
     this->jugador = nullptr;
     this->col = leerCol(nombreArchivo);
     this->fil = leerfil(nombreArchivo);
 
-        Nodo*** matrix = new Nodo ** [this->fil];
-        for (int i = 0; i < this->fil; i++) {
-            matrix[i] = new Nodo*[this->col];
-        }
+    std::ifstream archivo(nombreArchivo);
+    if (!archivo.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo " << nombreArchivo << std::endl;
+        return;
+    }
 
-        for (int i = 0; i < this->fil; i++) {
-            for (int j = 0; j < this->col; j++) {
-                matrix[i][j] = new Nodo('.',nullptr, nullptr, nullptr, nullptr);
-            }
-        }
-
-
-        this->inicio = matrix[0][0];
-
-        for (int i = 0; i < fil; i++) {
-            for (int j = 0; j < col; j++) {
-                if (i > 0) {
-                    matrix[i][j]->up = matrix[i - 1][j];
-                }
-
-                if (i < fil - 1) {
-                    matrix[i][j]->down = matrix[i + 1][j];
-                }
-
-                if (j > 0) {
-                    matrix[i][j]->left = matrix[i][j - 1];
-                }
-
-                if (j < col - 1) {
-                    matrix[i][j]->right = matrix[i][j + 1];
-                }
-            }
-        }
-        /// ////////////////////////////////////////////////////////////////////////////////
-
-        std::ifstream archivo(nombreArchivo);
-        if (!archivo.is_open()) {
-            std::cerr << "Error: No se pudo abrir el archivo " << nombreArchivo << std::endl;
-            return;
-        }
-
-        std::string line;
-        int row = 0;
-
-        while (std::getline(archivo, line) && row < this->fil) {
-            int col = 0;
-            for (char c : line) {
-                if (col < this->col) {
+    std::string line;
+    bool start = false;
+    bool startstart = false;
+    bool prifilaB = true;
+    Nodo* ante = nullptr;
+    Nodo* priFila = nullptr;
+    Nodo* nuevo = nullptr;
+    int row = 0;
+    while (std::getline(archivo, line) && row < this->fil) {
+        int col = 0;
+        for (char c : line) {
+            if (col < this->col) {
+                if (start == false) {
+                    nuevo = new Nodo(c, nullptr, nullptr, nullptr, nullptr);
+                    if (startstart == false) {
+                        this->inicio = nuevo;
+                        startstart = true;
+                    }
+                    priFila = nuevo;
+                    ante = nuevo;
+                    start = true;
                     if (c == '$') {
                         this->endGAME.push(1);//can de $
                     }
                     if (c == '@') {
-                        this->jugador =matrix[row][col]; //Para saber donde esta el jugador siempre
-                        matrix[row][col]->punto = false;
+                        this->jugador = nuevo; //Para saber donde esta el jugador siempre
+                        this->jugador->punto = false;
                     }
 
                     if (c == ',') {
-                        matrix[row][col]->setdata(' ');
-                        matrix[row][col]->punto = false;
+                        nuevo->setdata(' ');
+                        nuevo->punto = false;
                     }
                     else {
-                        matrix[row][col]->setdata(c);
+                        nuevo->setdata(c);
                         if (c == '.') {
-                            matrix[row][col]->punto = true;
+                            nuevo->punto = true;
                         }
                     }
-
-                    col++;
                 }
-            }
-            row++;
-        }
-        archivo.close();
-        ////////////////////////////////////////////////////////////////////////////////////
+                else {
+                    if (prifilaB == true) {
+                        nuevo = new Nodo(c, nullptr, nullptr, nullptr, nullptr);
+                        ante->right = nuevo;
+                        nuevo->left = ante;
+                        ante = nuevo;
+                        if (c == '$') {
+                            this->endGAME.push(1);//can de $
+                        }
+                        if (c == '@') {
+                            this->jugador = nuevo; //Para saber donde esta el jugador siempre
+                            this->jugador->punto = false;
+                        }
 
-        for (int i = 0; i < this->fil; i++) {
-            delete[] matrix[i];
+                        if (c == ',') {
+                            nuevo->setdata(' ');
+                            nuevo->punto = false;
+                        }
+                        else {
+                            nuevo->setdata(c);
+                            if (c == '.') {
+                                nuevo->punto = true;
+                            }
+                        }
+                    }
+                    else if (col == 0)
+                    {
+                        nuevo = priFila->down;
+                        nuevo->setdata(c);
+                        priFila = nuevo;
+                        ante = nuevo;
+                        if (c == '$') {
+                            this->endGAME.push(1);//can de $
+                        }
+                        if (c == '@') {
+                            this->jugador = nuevo; //Para saber donde esta el jugador siempre
+                            this->jugador->punto = false;
+                        }
+                        if (c == ',') {
+                            nuevo->setdata(' ');
+                            nuevo->punto = false;
+                        }
+                        else {
+                            nuevo->setdata(c);
+                            if (c == '.') {
+                                nuevo->punto = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        nuevo = new Nodo(c, nullptr, nullptr, nullptr, nullptr);
+                        ante->right = nuevo;
+                        nuevo->left = ante;
+                        ante = nuevo;
+                        if (c == '$') {
+                            this->endGAME.push(1);//can de $
+                        }
+                        if (c == '@') {
+                            this->jugador = nuevo; //Para saber donde esta el jugador siempre
+                            this->jugador->punto = false;
+                        }
+
+                        if (c == ',') {
+                            nuevo->setdata(' ');
+                            nuevo->punto = false;
+                        }
+                        else {
+                            nuevo->setdata(c);
+                            if (c == '.') {
+                                nuevo->punto = true;
+                            }
+                        }
+                    }
+                }
+                col++;
+            }
         }
-        delete[] matrix;
+        priFila->down = new Nodo('x', priFila, nullptr, nullptr, nullptr);
+        prifilaB = false;
+        row++;
+    }
+
+    ante = this->inicio;
+    Nodo* sig = this->inicio->down;
+    Nodo* anteUNO = this->inicio;
+    Nodo* sigUNO = this->inicio->down;
+    row = 0;
+    while (row - 1 < fil)
+    {
+        if (sig == nullptr) {
+            break;
+        }
+        while (sig->right != nullptr)
+        {
+            ante->down = sig;
+            sig->up = ante;
+            ante = ante->right;
+            sig = sig->right;
+        }
+        ante = sigUNO;
+        sig = sigUNO->down;
+        sigUNO = sig;
+        row++;
+    }
 }
 
 std::string Tabla::toString() {
@@ -213,8 +284,10 @@ std::string Tabla::toString() {
         }
         s << '\n';
         if (i < this->fil - 1) {
-            aux = aux->down;
-            actual = aux;
+            if (aux->down != nullptr) {
+                aux = aux->down;
+                actual = aux;
+            }
         }
     }
 
@@ -249,6 +322,7 @@ void Tabla::START()
         op = getMove();
         //aqui se llama al metod de los movimientos
     } while (op != 'z');
+    getRep();
 }
 
 char Tabla::getMove() {
@@ -272,14 +346,10 @@ char Tabla::getMove() {
             bool validMove = false;
 
             switch (op) {
-            case -32: validMove = moveUp(); break;    // Flecha arriba en ASCII
-            case -31: validMove = moveDown(); break;  // Flecha abajo en ASCII
-            case -33: validMove = moveLeft(); break;  // Flecha izquierda en ASCII
-            case -34: validMove = moveRight(); break; // Flecha derecha en ASCII
-            case 'w': validMove = moveUp(); break;   // 'w' en ASCII
-            case 'a': validMove = moveLeft(); break;  // 'a' en ASCII
-            case 'd': validMove = moveRight(); break; // 'd' en ASCII
-            case 's': validMove = moveDown(); break;  // 's' en ASCII
+            case 'w': validMove = moveUp(); rep.push_back('w'); break;   // 'w' en ASCII
+            case 'a': validMove = moveLeft(); rep.push_back('a'); break;  // 'a' en ASCII
+            case 'd': validMove = moveRight(); rep.push_back('d'); break; // 'd' en ASCII
+            case 's': validMove = moveDown(); rep.push_back('s'); break;  // 's' en ASCII
             case 'z': break; // 'z' en ASCII
             default: break;
             }
@@ -614,3 +684,76 @@ bool Tabla::isEnd()
 	}
     return false;
 }
+
+std::string Tabla::getRep() {
+    std::stringstream s;
+    int i = 1;  // Contador de movimientos
+
+    // Limpia la pantalla antes de comenzar
+    std::system("cls");
+
+    // Clona el juego original
+    Tabla clonedGame(*this);
+    std::vector <char> rep = clonedGame.rep;
+
+    for (char movimiento : rep) {
+        // Realiza el movimiento en el juego clonado
+        switch (movimiento) {
+        case 'w':
+            clonedGame.moveUp();
+            break;
+        case 'a':
+            clonedGame.moveLeft();
+            break;
+        case 'd':
+            clonedGame.moveRight();
+            break;
+        case 's':
+            clonedGame.moveDown();
+            break;
+        }
+
+        // Limpia la pantalla antes de mostrar el siguiente movimiento
+        std::system("cls");
+
+        // Imprime el estado del juego después de cada movimiento
+        std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
+
+        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+        // Si el juego clonado ha llegado al estado de ganado, reinícialo
+        if (clonedGame.isEnd()) {
+            clonedGame.restart();
+            clonedGame.rep = rep;
+        }
+
+        i++;
+    }
+    std::cout << clonedGame.toString() << '\n';
+
+    return s.str();
+}
+
+void Tabla::restart()
+{
+    this->jugador = this->inicio;
+    this->endGAME = std::stack<int>();
+    this->col = leerCol("../L1.txt");
+    this->fil = leerfil("../L1.txt");
+
+    Nodo*** matrix = new Nodo * *[this->fil];
+    for (int i = 0; i < this->fil; i++) {
+        matrix[i] = new Nodo * [this->col];
+    }
+
+    for (int i = 0; i < this->fil; i++) {
+        for (int j = 0; j < this->col; j++) {
+            matrix[i][j] = new Nodo('.', nullptr, nullptr, nullptr, nullptr);
+        }
+    }
+}
+
+
+
+

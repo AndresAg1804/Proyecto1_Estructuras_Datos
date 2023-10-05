@@ -10,6 +10,8 @@
 #include <iomanip> // Para std::setw
 #include <chrono>
 #include <thread>
+#include <vector>
+#include <limits>
 
 
 class Tabla {//Juan Pa probando
@@ -28,6 +30,7 @@ public:
     int col;
     int fil;
     std::stack<int> endGAME;
+    std::vector<char> rep;
     int leerCol(const std::string& nombreArchivo);
     int leerfil(const std::string& nombreArchivo);
     Nodo* inicio;
@@ -42,4 +45,6 @@ public:
     bool moveLeft();
     bool moveRight();
     bool isEnd();
+    std::string getRep();
+    void restart();
 };
