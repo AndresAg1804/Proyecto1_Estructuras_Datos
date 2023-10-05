@@ -150,7 +150,9 @@ Tabla::Tabla(const std::string& nombreArchivo)
             int col = 0;
             for (char c : line) {
                 if (col < this->col) {
-
+                    if (c == '$') {
+                        this->endGAME.push(1);//can de $
+                    }
                     if (c == '@') {
                         this->jugador = this->matrix[row][col]; //Para saber donde esta el jugador siempre
                         this->matrix[row][col]->punto = false;
@@ -221,6 +223,11 @@ void Tabla::START()
 char Tabla::getMove() {
     char op = 'x';
     while (op != 'z') {
+        if (this->endGAME.empty()) {
+            std::cout<<"Win Win!!!"<<'\n';
+            op = 'z';
+            return op;
+        }
         std::cout << this->toString();
         std::cout << '\n' << '\n';
         std::cout << "      { 'z' :(EXIT)}" << '\n' << '\n';
@@ -294,6 +301,7 @@ bool Tabla::moveUp() {
             if (nextNextUp == ' ' || nextNextUp == '.') {
                 if (nextNextUp == '.') {
                     this->jugador->up->up->data = '!';
+                    this->endGAME.pop();
                 }
                 else {
                     this->jugador->up->up->data = '$';
@@ -313,6 +321,7 @@ bool Tabla::moveUp() {
                 this->jugador->up->up->data = '$';
                 this->jugador->up->data = '@';
                 this->jugador->data = ' ';
+                this->endGAME.push(1);
                 if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
@@ -367,6 +376,7 @@ bool Tabla::moveDown() {
             if (nextNextDown == ' ' || nextNextDown == '.') {
                 if (nextNextDown == '.') {
                     this->jugador->down->down->data = '!';
+                    this->endGAME.pop();
                 }
                 else {
                     this->jugador->down->down->data = '$';
@@ -386,6 +396,7 @@ bool Tabla::moveDown() {
                 this->jugador->down->down->data = '$';
                 this->jugador->down->data = '@';
                 this->jugador->data = ' ';
+                this->endGAME.push(1);
                 if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
@@ -442,6 +453,7 @@ bool Tabla::moveLeft() {
             if (nextNextLeft == ' ' || nextNextLeft == '.') {
                 if (nextNextLeft == '.') {
                     this->jugador->left->left->data = '!';
+                    this->endGAME.pop();
                 }
                 else {
                     this->jugador->left->left->data = '$';
@@ -461,6 +473,7 @@ bool Tabla::moveLeft() {
                 this->jugador->left->left->data = '$';
                 this->jugador->left->data = '@';
                 this->jugador->data = ' ';
+                this->endGAME.push(1);
                 if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }
@@ -517,6 +530,7 @@ bool Tabla::moveRight() {
             if (nextNextRight == ' ' || nextNextRight == '.') {
                 if (nextNextRight == '.') {
                     this->jugador->right->right->data = '!';
+                    this->endGAME.pop();
                 }
                 else {
                     this->jugador->right->right->data = '$';
@@ -536,6 +550,7 @@ bool Tabla::moveRight() {
                 this->jugador->right->right->data = '$';
                 this->jugador->right->data = '@';
                 this->jugador->data = ' ';
+                this->endGAME.push(1);
                 if (this->jugador->punto==true) {
                     this->jugador->data = '.';
                 }

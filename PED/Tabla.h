@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include<conio.h>
 #include<Windows.h>
+#include<stack>
 
 class Tabla {//Juan Pa probando
 public:
@@ -21,6 +22,7 @@ public:
     //falta la Pila para simluar un contador de "$"
     int col;
     int fil;
+    std::stack<int> endGAME;
     Nodo*** matrix;
     int leerCol(const std::string& nombreArchivo);
     int leerfil(const std::string& nombreArchivo);
