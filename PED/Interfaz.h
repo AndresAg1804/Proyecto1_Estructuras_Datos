@@ -1,8 +1,4 @@
 #pragma once
-
-class Interfaz
-{
-=======
 #include "Tabla.h"
 
 class Interfaz
