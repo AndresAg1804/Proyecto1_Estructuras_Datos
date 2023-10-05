@@ -182,13 +182,13 @@ std::string Tabla::toString() {
     std::stringstream s;
     char cell = ' ';
     Nodo* aux = this->inicio;
-    Nodo* currentNode = this->inicio;
+    Nodo* actual = this->inicio;
 
     for (int i = 0; i < this->fil; i++) {
         for (int j = 0; j < this->col; j++) {
-            if (currentNode != nullptr) {
-                cell = currentNode->data;
-                currentNode = currentNode->right;
+            if (actual != nullptr) {
+                cell = actual->data;
+                actual = actual->right;
             }
             switch (cell) {
             case '@':
@@ -210,7 +210,7 @@ std::string Tabla::toString() {
         s << '\n';
         if (i < this->fil - 1) {
             aux = aux->down;
-            currentNode = aux;
+            actual = aux;
         }
     }
 
