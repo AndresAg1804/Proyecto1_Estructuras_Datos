@@ -24,16 +24,16 @@ void Interfaz::mostrarPantallaInicial() {
     std::cout << '\n' << '\n';
 
     // Mensajes "JUANPA", "ANNER", "MARCOS" centrados
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "JUANPA" << std::endl;
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "ANNER" << std::endl;
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "MARCOS" << std::endl;
+    std::cout << std::setw((screenWidth - 30) / 2) << "" << "Juan Pablo Cartin Esquivel" << std::endl;
+    std::cout << std::setw((screenWidth - 30) / 2) << "" << "Anner Andres Angulo Gutierrez" << std::endl;
+    std::cout << std::setw((screenWidth - 30) / 2) << "" << "Marcos Emilio Vasquez Diaz" << std::endl;
 
     std::cout << '\n' << '\n' << '\n' << '\n';
 
     std::cout << "Presiona cualquier tecla para comenzar..." << std::endl;
 
     // Espera a que el jugador presione una tecla
-    std::cin.ignore();
+    //std::cin.ignore();
     std::cin.get();
 }
 
@@ -47,10 +47,7 @@ char Interfaz::getMove(Tabla* table) {
         }
         std::cout << table->toString();
         std::cout << '\n' << '\n';
-        std::cout << "      { 'z' :(EXIT)}" << '\n' << '\n';
-        std::cout << "  w:(up)\n";
-        std::cout << "a:(left)   +   d:(right)\n";
-        std::cout << "  s:(down)\n";
+        std::cout << table->movimientos();
         std::cout << '\n' << '\n';
 
         try {
