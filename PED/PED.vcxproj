@@ -126,11 +126,21 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
+  <ItemGroup> 
     <ClInclude Include="Interfaz.h" />
     <ClInclude Include="Tabla.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Interfaz.cpp" />
+     <ClInclude Include="Tabla.h" />
+  </ItemGroup>
+  <ItemGroup>
+     <ClInclude Include="Controladora.h" />
+    <ClInclude Include="Interfaz.h" />
+    <ClInclude Include="Tabla.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Controladora.cpp" />
     <ClCompile Include="Interfaz.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tabla.cpp" />
