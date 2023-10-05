@@ -12,6 +12,9 @@ public:
 	void Menu();
 	void Control1();
 	void control2();
+	void control3();
+	void control4();
+	void control5();
 	/*void Ingresar();
 	void Mostrar();
 	void Buscar();

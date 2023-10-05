@@ -89,7 +89,7 @@ int Interfaz::menuEscogerNivel()
 
 char Interfaz::getMove(Tabla* table) {
     char op = 'x';
-    while (op != 'z') {
+    while (op != '\x1b') {
         if (table->isEnd()) {
             op = 'z';
             return op;
@@ -111,7 +111,8 @@ char Interfaz::getMove(Tabla* table) {
             case 'a': validMove = table->moveLeft(); break;
             case 'd': validMove = table->moveRight(); break;
             case 's': validMove = table->moveDown(); break;
-            case 'z': break;
+           // case 'z': break;
+            case '\x1b': validMove = true; break; // Tecla "ESC
             default: break;
             }
 
@@ -128,4 +129,20 @@ char Interfaz::getMove(Tabla* table) {
         }
     }
     return op;
+}
+
+int Interfaz::menuGane()
+{
+    int opc = 0;
+    std::cout << "                      MENU                      \n";
+    std::cout << "1. Avanzar al siguiente nivel\n";
+    std::cout << "2. Ver Repeticion\n";
+    std::cout << "3. Salir al menu principal\n";
+    std::cout << "Digite una opcion del menu: ";
+    if (std::cin >> opc) {
+        return opc;
+    }
+    else {
+        return -1; // Retorna -1 en caso de entrada inválida
+    }
 }
