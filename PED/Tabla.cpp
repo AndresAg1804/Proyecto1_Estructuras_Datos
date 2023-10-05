@@ -174,8 +174,12 @@ Tabla::Tabla(const std::string& nombreArchivo)
             row++;
         }
         archivo.close();
-        /// ////////////////////////////////////////////////////////////////////////////////
-        
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        for (int i = 0; i < this->fil; i++) {
+            delete[] matrix[i];
+        }
+        delete[] matrix;
 }
 
 std::string Tabla::toString() {
