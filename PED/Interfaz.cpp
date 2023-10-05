@@ -40,8 +40,7 @@ void Interfaz::mostrarPantallaInicial() {
 char Interfaz::getMove(Tabla* table) {
     char op = 'x';
     while (op != 'z') {
-        if (table->endGAME.empty()) {
-            std::cout << "Win Win!!!" << '\n';
+        if (table->isEnd()) {
             op = 'z';
             return op;
         }

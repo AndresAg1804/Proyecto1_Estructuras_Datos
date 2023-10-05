@@ -228,9 +228,6 @@ std::string Tabla::movimientos()
     s << "===========================" << '\n';
     s << "  Controles de Movimiento  " << '\n';
     s << "===========================" << '\n';
-    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Espera 500 milisegundos
-    system("cls");
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     s << "-----------------------" << '\n';
     s << "  W: Mover Arriba" << '\n';
     s << "  A: Mover Izquierda" << '\n';
@@ -239,7 +236,7 @@ std::string Tabla::movimientos()
     s << "-----------------------" << '\n';
     s << "  Z: Salir del Juego" << '\n';
     s << "-----------------------" << '\n';
-    return std::string();
+    return s.str();
 }
 
 
