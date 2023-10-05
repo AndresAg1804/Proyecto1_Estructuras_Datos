@@ -8,7 +8,7 @@ void Interfaz::mostrarPantallaInicial() {
     system("clear");
 #endif
 
-    // Tamaño de la pantalla (ancho)
+    // TamaÃ±o de la pantalla (ancho)
     int screenWidth = 80;
 
     // Mensaje "UNA" centrado
@@ -57,7 +57,7 @@ char Interfaz::getMove(Tabla* table) {
             op = _getch();
             std::system("cls");
 
-            // Verifica si el movimiento es válido
+            // Verifica si el movimiento es vÃ¡lido
             bool validMove = false;
 
             switch (op) {
@@ -70,7 +70,7 @@ char Interfaz::getMove(Tabla* table) {
             }
 
             if (validMove) {
-                // Realiza el movimiento si es válido
+                // Realiza el movimiento si es vÃ¡lido
                 std::cout << "Movimiento realizado:\n";
             }
             else {
@@ -78,8 +78,9 @@ char Interfaz::getMove(Tabla* table) {
             }
         }
         catch (...) {
-            std::cout << "Por favor, ingresa un carácter válido.\n";
+            std::cout << "Por favor, ingresa un carÃ¡cter vÃ¡lido.\n";
         }
     }
     return op;
 }
+
