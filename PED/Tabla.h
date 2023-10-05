@@ -6,6 +6,8 @@
 #include<conio.h>
 #include<Windows.h>
 #include<stack>
+#include <cstdlib>
+#include <iomanip> // Para std::setw
 
 class Tabla {//Juan Pa probando
 public:

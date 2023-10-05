@@ -1,6 +1,5 @@
 #include "Tabla.h"
-#include <cstdlib>
-#include <iomanip> // Para std::setw
+
 
 // ANSI escape codes for text colors
 #define ANSI_RESET "\033[0m" 
