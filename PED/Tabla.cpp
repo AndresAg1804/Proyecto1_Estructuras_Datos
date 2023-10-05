@@ -101,36 +101,36 @@ Tabla::Tabla(const std::string& nombreArchivo)
     this->col = leerCol(nombreArchivo);
     this->fil = leerfil(nombreArchivo);
 
-        this->matrix = new Nodo ** [this->fil];
+        Nodo*** matrix = new Nodo ** [this->fil];
         for (int i = 0; i < this->fil; i++) {
-            this->matrix[i] = new Nodo*[this->col];
+            matrix[i] = new Nodo*[this->col];
         }
 
         for (int i = 0; i < this->fil; i++) {
             for (int j = 0; j < this->col; j++) {
-                this->matrix[i][j] = new Nodo('.',nullptr, nullptr, nullptr, nullptr);
+                matrix[i][j] = new Nodo('.',nullptr, nullptr, nullptr, nullptr);
             }
         }
 
 
-        this->inicio = this->matrix[0][0];
+        this->inicio = matrix[0][0];
 
         for (int i = 0; i < fil; i++) {
             for (int j = 0; j < col; j++) {
                 if (i > 0) {
-                    this->matrix[i][j]->up = this->matrix[i - 1][j];
+                    matrix[i][j]->up = matrix[i - 1][j];
                 }
 
                 if (i < fil - 1) {
-                    this->matrix[i][j]->down = this->matrix[i + 1][j];
+                    matrix[i][j]->down = matrix[i + 1][j];
                 }
 
                 if (j > 0) {
-                    this->matrix[i][j]->left = this->matrix[i][j - 1];
+                    matrix[i][j]->left = matrix[i][j - 1];
                 }
 
                 if (j < col - 1) {
-                    this->matrix[i][j]->right = this->matrix[i][j + 1];
+                    matrix[i][j]->right = matrix[i][j + 1];
                 }
             }
         }
@@ -153,18 +153,18 @@ Tabla::Tabla(const std::string& nombreArchivo)
                         this->endGAME.push(1);//can de $
                     }
                     if (c == '@') {
-                        this->jugador = this->matrix[row][col]; //Para saber donde esta el jugador siempre
-                        this->matrix[row][col]->punto = false;
+                        this->jugador =matrix[row][col]; //Para saber donde esta el jugador siempre
+                        matrix[row][col]->punto = false;
                     }
 
                     if (c == ',') {
-                        this->matrix[row][col]->setdata(' ');
-                        this->matrix[row][col]->punto = false;
+                        matrix[row][col]->setdata(' ');
+                        matrix[row][col]->punto = false;
                     }
                     else {
-                        this->matrix[row][col]->setdata(c);
+                        matrix[row][col]->setdata(c);
                         if (c == '.') {
-                            this->matrix[row][col]->punto = true;
+                            matrix[row][col]->punto = true;
                         }
                     }
 
@@ -180,10 +180,16 @@ Tabla::Tabla(const std::string& nombreArchivo)
 
 std::string Tabla::toString() {
     std::stringstream s;
+    char cell = ' ';
+    Nodo* aux = this->inicio;
+    Nodo* currentNode = this->inicio;
 
-    for (int i = 0; i < fil; i++) {
-        for (int j = 0; j < col; j++) {
-            char cell = this->matrix[i][j]->data;
+    for (int i = 0; i < this->fil; i++) {
+        for (int j = 0; j < this->col; j++) {
+            if (currentNode != nullptr) {
+                cell = currentNode->data;
+                currentNode = currentNode->right;
+            }
             switch (cell) {
             case '@':
                 s << ANSI_CYAN << cell << ANSI_RESET;  // Cyan color for the player character
@@ -202,6 +208,10 @@ std::string Tabla::toString() {
             }
         }
         s << '\n';
+        if (i < this->fil - 1) {
+            aux = aux->down;
+            currentNode = aux;
+        }
     }
 
     return s.str();

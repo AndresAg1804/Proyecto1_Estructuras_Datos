@@ -25,7 +25,6 @@ public:
     int col;
     int fil;
     std::stack<int> endGAME;
-    Nodo*** matrix;
     int leerCol(const std::string& nombreArchivo);
     int leerfil(const std::string& nombreArchivo);
     Nodo* inicio;
