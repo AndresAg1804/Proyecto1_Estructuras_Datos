@@ -127,12 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup> 
-    <ClInclude Include="Interfaz.h" />
-    <ClInclude Include="Tabla.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Interfaz.cpp" />
-     <ClInclude Include="Tabla.h" />
   </ItemGroup>
   <ItemGroup>
      <ClInclude Include="Controladora.h" />
