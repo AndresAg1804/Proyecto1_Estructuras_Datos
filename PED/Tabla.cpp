@@ -95,6 +95,7 @@ int Tabla::leerfil(const std::string& nombreArchivo)
 }
 
 Tabla::Tabla(const std::string& nombreArchivo) {
+    nomArchivo = nombreArchivo;
     this->inicio = nullptr;
     this->jugador = nullptr;
     this->col = leerCol(nombreArchivo);
@@ -258,39 +259,40 @@ std::string Tabla::toString() {
     char cell = ' ';
     Nodo* aux = this->inicio;
     Nodo* actual = this->inicio;
+    if (inicio != nullptr) {
 
-    for (int i = 0; i < this->fil; i++) {
-        for (int j = 0; j < this->col; j++) {
-            if (actual != nullptr) {
-                cell = actual->data;
-                actual = actual->right;
+        for (int i = 0; i < this->fil; i++) {
+            for (int j = 0; j < this->col; j++) {
+                if (actual != nullptr) {
+                    cell = actual->data;
+                    actual = actual->right;
+                }
+                switch (cell) {
+                case '@':
+                    s << ANSI_CYAN << cell << ANSI_RESET;  // Cyan color for the player character
+                    break;
+                case '.':
+                    s << ANSI_GREEN << cell << ANSI_RESET;  // White color for dots 
+                    break;
+                case '$':
+                    s << ANSI_YELLOW << cell << ANSI_RESET; // Yellow color for dollar signs
+                    break;
+                case '!':
+                    s << ANSI_RED << cell << ANSI_RESET;    // Red color for exclamation marks
+                    break;
+                default:
+                    s << cell;  // No color for other characters
+                }
             }
-            switch (cell) {
-            case '@':
-                s << ANSI_CYAN << cell << ANSI_RESET;  // Cyan color for the player character
-                break;
-            case '.':
-                s << ANSI_GREEN << cell << ANSI_RESET;  // White color for dots 
-                break;
-            case '$':
-                s << ANSI_YELLOW << cell << ANSI_RESET; // Yellow color for dollar signs
-                break;
-            case '!':
-                s << ANSI_RED << cell << ANSI_RESET;    // Red color for exclamation marks
-                break;
-            default:
-                s << cell;  // No color for other characters
-            }
-        }
-        s << '\n';
-        if (i < this->fil - 1) {
-            if (aux->down != nullptr) {
-                aux = aux->down;
-                actual = aux;
+            s << '\n';
+            if (i < this->fil - 1) {
+                if (aux->down != nullptr) {
+                    aux = aux->down;
+                    actual = aux;
+                }
             }
         }
     }
-
     return s.str();
 }
 
@@ -346,10 +348,10 @@ char Tabla::getMove() {
             bool validMove = false;
 
             switch (op) {
-            case 'w': validMove = moveUp(); rep.push_back('w'); break;   // 'w' en ASCII
-            case 'a': validMove = moveLeft(); rep.push_back('a'); break;  // 'a' en ASCII
-            case 'd': validMove = moveRight(); rep.push_back('d'); break; // 'd' en ASCII
-            case 's': validMove = moveDown(); rep.push_back('s'); break;  // 's' en ASCII
+            case 'w': validMove = moveUp(); rep.push_back('w'); break;   // 'w' en ASCII 
+            case 'a': validMove = moveLeft(); rep.push_back('a'); break;  // 'a' en ASCII 
+            case 'd': validMove = moveRight(); rep.push_back('d'); break; // 'd' en ASCII 
+            case 's': validMove = moveDown(); rep.push_back('s'); break;  // 's' en ASCII 
             case 'z': break; // 'z' en ASCII
             default: break;
             }
@@ -693,65 +695,70 @@ std::string Tabla::getRep() {
     std::system("cls");
 
     // Clona el juego original
-    Tabla clonedGame(*this);
-    std::vector <char> rep = clonedGame.rep;
+    std::vector <char> rep2;
+    Tabla* clonedGame = this->restart();
 
-    for (char movimiento : rep) {
+    for (char movimiento : this->rep) {
         // Realiza el movimiento en el juego clonado
         switch (movimiento) {
         case 'w':
-            clonedGame.moveUp();
+            (*clonedGame).moveUp();
             break;
         case 'a':
-            clonedGame.moveLeft();
+            (*clonedGame).moveLeft();
             break;
         case 'd':
-            clonedGame.moveRight();
+            (*clonedGame).moveRight();
             break;
         case 's':
-            clonedGame.moveDown();
+            (*clonedGame).moveDown();
             break;
         }
-
         // Limpia la pantalla antes de mostrar el siguiente movimiento
-        std::system("cls");
-
+        std::cout << clonedGame->toString() << '\n';
         // Imprime el estado del juego después de cada movimiento
         std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
 
         // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
+        std::system("cls");
 
         // Si el juego clonado ha llegado al estado de ganado, reinícialo
-        if (clonedGame.isEnd()) {
-            clonedGame.restart();
-            clonedGame.rep = rep;
-        }
-
         i++;
     }
-    std::cout << clonedGame.toString() << '\n';
+
+    // Imprime el estado final del juego
 
     return s.str();
 }
 
-void Tabla::restart()
+void Tabla::eliminarNodos()
 {
-    this->jugador = this->inicio;
-    this->endGAME = std::stack<int>();
-    this->col = leerCol("../L1.txt");
-    this->fil = leerfil("../L1.txt");
+    Nodo* actual = this->inicio;
+    Nodo* sig = nullptr;
+    Nodo* sigUNO = nullptr;
 
-    Nodo*** matrix = new Nodo * *[this->fil];
-    for (int i = 0; i < this->fil; i++) {
-        matrix[i] = new Nodo * [this->col];
-    }
+    while (actual != nullptr)
+    {
+        sig = actual->right;
 
-    for (int i = 0; i < this->fil; i++) {
-        for (int j = 0; j < this->col; j++) {
-            matrix[i][j] = new Nodo('.', nullptr, nullptr, nullptr, nullptr);
+        while (actual != nullptr)
+        {
+            sigUNO = actual->down;
+            delete actual;
+            actual = sigUNO;
         }
+
+        actual = sig;
     }
+
+}
+
+Tabla* Tabla::restart()
+{
+    this->eliminarNodos();
+    Tabla* nuevo = new Tabla(this->nomArchivo);
+    return nuevo;
 }
 
 

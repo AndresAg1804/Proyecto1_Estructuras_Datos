@@ -27,6 +27,7 @@ public:
         void setdata(char dd) { data = dd; };
     };
     //falta la Pila para simluar un contador de "$"
+    std::string nomArchivo;
     int col;
     int fil;
     std::stack<int> endGAME;
@@ -46,5 +47,6 @@ public:
     bool moveRight();
     bool isEnd();
     std::string getRep();
-    void restart();
+    void eliminarNodos();
+    Tabla* restart();
 };
