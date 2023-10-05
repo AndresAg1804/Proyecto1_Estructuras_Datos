@@ -8,6 +8,9 @@
 #include<stack>
 #include <cstdlib>
 #include <iomanip> // Para std::setw
+#include <chrono>
+#include <thread>
+
 
 class Tabla {//Juan Pa probando
 public:
@@ -31,10 +34,12 @@ public:
     Nodo* jugador;
     Tabla(const std::string& nombreArchivo);
     std::string toString();
+    std::string movimientos();
     void START();
     char getMove();
     bool moveUp();
     bool moveDown();
     bool moveLeft();
     bool moveRight();
+    bool isEnd();
 };

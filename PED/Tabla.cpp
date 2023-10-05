@@ -221,6 +221,27 @@ std::string Tabla::toString() {
     return s.str();
 }
 
+std::string Tabla::movimientos()
+{
+    std::stringstream s;
+    //setColor(3); // Establece el color a amarillo
+    s << "===========================" << '\n';
+    s << "  Controles de Movimiento  " << '\n';
+    s << "===========================" << '\n';
+    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Espera 500 milisegundos
+    system("cls");
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    s << "-----------------------" << '\n';
+    s << "  W: Mover Arriba" << '\n';
+    s << "  A: Mover Izquierda" << '\n';
+    s << "  D: Mover Derecha" << '\n';
+    s << "  S: Mover Abajo" << '\n';
+    s << "-----------------------" << '\n';
+    s << "  Z: Salir del Juego" << '\n';
+    s << "-----------------------" << '\n';
+    return std::string();
+}
+
 
 void Tabla::START()
 {
@@ -236,32 +257,33 @@ void Tabla::START()
 char Tabla::getMove() {
     char op = 'x';
     while (op != 'z') {
-        if (this->endGAME.empty()) {
-            std::cout<<"Win Win!!!"<<'\n';
+        if (isEnd()) {
             op = 'z';
             return op;
         }
         std::cout << this->toString();
         std::cout << '\n' << '\n';
-        std::cout << "      { 'z' :(EXIT)}" << '\n' << '\n';
-        std::cout << "  w:(up)\n";
-        std::cout << "a:(left)   +   d:(right)\n";
-        std::cout << "  s:(down)\n";
+        std::cout << this->movimientos();
         std::cout << '\n' << '\n';
 
         try {
             op = _getch();
+
             std::system("cls");
 
             // Verifica si el movimiento es válido
             bool validMove = false;
 
             switch (op) {
-            case 'w': validMove = moveUp(); break;
-            case 'a': validMove = moveLeft(); break;
-            case 'd': validMove = moveRight(); break;
-            case 's': validMove = moveDown(); break;
-            case 'z': break;
+            case -32: validMove = moveUp(); break;    // Flecha arriba en ASCII
+            case -31: validMove = moveDown(); break;  // Flecha abajo en ASCII
+            case -33: validMove = moveLeft(); break;  // Flecha izquierda en ASCII
+            case -34: validMove = moveRight(); break; // Flecha derecha en ASCII
+            case 'w': validMove = moveUp(); break;   // 'w' en ASCII
+            case 'a': validMove = moveLeft(); break;  // 'a' en ASCII
+            case 'd': validMove = moveRight(); break; // 'd' en ASCII
+            case 's': validMove = moveDown(); break;  // 's' en ASCII
+            case 'z': break; // 'z' en ASCII
             default: break;
             }
 
@@ -269,16 +291,17 @@ char Tabla::getMove() {
                 // Realiza el movimiento si es válido
                 std::cout << "Movimiento realizado:\n";
             }
-			else {
-				std::cout << "Movimiento no valido. Intente de nuevo.\n\n\n";
-			}
+            else {
+                std::cout << "Movimiento no válido. Intente de nuevo.\n\n\n";
+            }
         }
         catch (...) {
-            std::cout << "Por favor, ingresa un carácter válido.\n";
+            std::cout << "Por favor, ingrese un carácter válido.\n";
         }
     }
     return op;
 }
+
 
 bool Tabla::moveUp() {
     if (this->jugador->up) {
@@ -586,204 +609,11 @@ bool Tabla::moveRight() {
     return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-/*
-void Tabla::START()
+bool Tabla::isEnd()
 {
-    int op;
-    do {
-
-        op = getMove();
-        //aqui se llama al metod de los movimientos
-    } while (op != 'z');
-}
-
-int Tabla::getMove() {
-    char op = 'x';
-    while ((op != 'z')) {
-        std::cout << this->toString();
-        std::cout << '\n' << '\n';
-        std::cout << "      { 'z' :(EXIT)}" << '\n' << '\n';
-        std::cout << "	w:(up)" << '\n';
-        std::cout << "a:(left)   +   d:(right)" << '\n';
-        std::cout << "	s:(down)" << '\n';
-        std::cout << '\n' << '\n';
-        try {
-            std::cin >> op;
-            if (op != 'a' && op != 'b' && op != 'w' && op != 's' && op != 'z') {
-                op = 'x';
-            }
-            std::system("cls");
-        }
-        catch (...) {
-            std::cout << "Please enter a valid char." << '\n';
-            std::system("cls");
-        }
-    }
-    return op;
-}
-*/
-
-
-/*
-bool Tabla::moveUp()
-{
-    if (this->jugador->up) {
-        char nextUp = this->jugador->up->data;
-        if (nextUp == ' ' || nextUp == '.') {
-            if (nextUp == '.') {
-                // Si hay un espacio para colocar una caja, verifica si hay una caja arriba de la posición actual.
-                if (this->jugador->up->up && this->jugador->up->up->data == '$') {
-                    this->jugador->up->up->data = '!';
-                }
-                else {
-                    this->jugador->up->up->data = '$';
-                }
-            }
-            this->jugador->up->data = '@';
-            this->jugador->data = (this->jugador->data == '@' && this->jugador->up->up && this->jugador->up->up->data == '!') ? '.' : ' ';
-            this->jugador = this->jugador->up;
-            return true;
-        }
-        // Si el siguiente espacio contiene una caja, intenta mover la caja si es posible.
-        if (nextUp == '$' || nextUp == '!') {
-            char nextNextUp = this->jugador->up->up ? this->jugador->up->up->data : ' ';
-            if (nextNextUp == ' ' || nextNextUp == '.') {
-                // Mueve la caja hacia arriba.
-                if (nextUp == '!') {
-                    this->jugador->up->up->data = '!';
-                }
-                else {
-                    this->jugador->up->up->data = '$';
-                }
-                this->jugador->up->data = '@';
-                this->jugador->data = (this->jugador->data == '@' && nextNextUp == '!') ? '.' : ' ';
-                this->jugador = this->jugador->up;
-                return true;
-            }
-        }
-    }
+    if (this->endGAME.empty()) {
+        std::cout << "Win Win!!!" << '\n';
+		return true;
+	}
     return false;
 }
-
-bool Tabla::moveDown()
-{
-    if (this->jugador->down) {
-        char nextDown = this->jugador->down->data;
-        if (nextDown == ' ' || nextDown == '.') {
-            if (nextDown == '.') {
-                // Si hay un espacio para colocar una caja, verifica si hay una caja abajo de la posición actual.
-                if (this->jugador->down->down && this->jugador->down->down->data == '$') {
-                    this->jugador->down->down->data = '!';
-                }
-                else {
-                    this->jugador->down->down->data = '$';
-                }
-            }
-            this->jugador->down->data = '@';
-            this->jugador->data = (this->jugador->data == '@' && this->jugador->down->down && this->jugador->down->down->data == '!') ? '.' : ' ';
-            this->jugador = this->jugador->down;
-            return true;
-        }
-        if (nextDown == '$' || nextDown == '!') {
-            char nextNextDown = this->jugador->down->down ? this->jugador->down->down->data : ' ';
-            if (nextNextDown == ' ' || nextNextDown == '.') {
-                if (nextDown == '!') {
-                    this->jugador->down->down->data = '!';
-                }
-                else {
-                    this->jugador->down->down->data = '$';
-                }
-                this->jugador->down->data = '@';
-                this->jugador->data = (this->jugador->data == '@' && nextNextDown == '!') ? '.' : ' ';
-                this->jugador = this->jugador->down;
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool Tabla::moveLeft()
-{
-    if (this->jugador->left) {
-        char nextLeft = this->jugador->left->data;
-        if (nextLeft == ' ' || nextLeft == '.') {
-            if (nextLeft == '.') {
-                if (this->jugador->left->left && this->jugador->left->left->data == '$') {
-                    this->jugador->left->left->data = '!';
-                }
-                else {
-                    this->jugador->left->left->data = '$';
-                }
-            }
-            this->jugador->left->data = '@';
-            this->jugador->data = (this->jugador->data == '@' && this->jugador->left->left && this->jugador->left->left->data == '!') ? '.' : ' ';
-            this->jugador = this->jugador->left;
-            return true;
-        }
-        if (nextLeft == '$' || nextLeft == '!') {
-            char nextNextLeft = this->jugador->left->left ? this->jugador->left->left->data : ' ';
-            if (nextNextLeft == ' ' || nextNextLeft == '.') {
-                if (nextLeft == '!') {
-                    this->jugador->left->left->data = '!';
-                }
-                else {
-                    this->jugador->left->left->data = '$';
-                }
-                this->jugador->left->data = '@';
-                this->jugador->data = (this->jugador->data == '@' && nextNextLeft == '!') ? '.' : ' ';
-                this->jugador = this->jugador->left;
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool Tabla::moveRight()
-{
-    if (this->jugador->right) {
-        char nextRight = this->jugador->right->data;
-        if (nextRight == ' ' || nextRight == '.') {
-            if (nextRight == '.') {
-                if (this->jugador->right->right && this->jugador->right->right->data == '$') {
-                    this->jugador->right->right->data = '!';
-                }
-                else {
-                    this->jugador->right->right->data = '$';
-                }
-            }
-            this->jugador->right->data = '@';
-            this->jugador->data = (this->jugador->data == '@' && this->jugador->right->right && this->jugador->right->right->data == '!') ? '.' : ' ';
-            this->jugador = this->jugador->right;
-            return true;
-        }
-        if (nextRight == '$' || nextRight == '!') {
-            char nextNextRight = this->jugador->right->right ? this->jugador->right->right->data : ' ';
-            if (nextNextRight == ' ' || nextNextRight == '.') {
-                if (nextRight == '!') {
-                    this->jugador->right->right->data = '!';
-                }
-                else {
-                    this->jugador->right->right->data = '$';
-                }
-                this->jugador->right->data = '@';
-                this->jugador->data = (this->jugador->data == '@' && nextNextRight == '!') ? '.' : ' ';
-                this->jugador = this->jugador->right;
-                return true;
-
-            }
-        }
-    }
-}
-*/
