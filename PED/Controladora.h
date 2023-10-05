@@ -11,6 +11,7 @@ public:
 	void Iniciar();
 	void Menu();
 	void Control1();
+	void control2();
 	/*void Ingresar();
 	void Mostrar();
 	void Buscar();

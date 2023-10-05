@@ -37,6 +37,56 @@ void Interfaz::mostrarPantallaInicial() {
     std::cin.get();
 }
 
+int Interfaz::menuPrincipal()
+{
+    int opc = 0;
+    std::cout << "                      MENU                      \n";
+    std::cout << "1. Nuevo Juego\n";
+    std::cout << "2. Cargar Juego Guardado \n";
+    std::cout << "3. Salir \n";
+    std::cout << "Digite una opcion del menu: ";
+    if (std::cin >> opc) {
+        return opc;
+    }
+    else {
+        return -1; // Retorna -1 en caso de entrada inválida
+    }
+
+}
+
+int Interfaz::menuJugar()
+{
+    int opc = 0;
+    std::cout << "                      MENU                      \n";
+    std::cout << "1. Guardar juego y salir al menu principal\n";
+    std::cout << "2. Reiniciar Nivel \n";
+    std::cout << "3. Salir al menu principal (No guarda la partida)\n";
+    std::cout << "4. Salir del juego (No guarda la partida)\n";
+    std::cout << "Digite una opcion del menu: ";
+    if (std::cin >> opc) {
+        return opc;
+    }
+    else {
+        return -1; // Retorna -1 en caso de entrada inválida
+    }
+}
+
+int Interfaz::menuEscogerNivel()
+{
+    int opc = 0;
+    std::cout << "                      MENU                      \n";
+    std::cout << "1. Dificultad Facil\n";
+    std::cout << "2. Dificultad Media\n";
+    std::cout << "3. Dificultad Dificil\n";
+    std::cout << "Digite una opcion del menu: ";
+    if (std::cin >> opc) {
+		return opc;
+	}
+    else {
+		return -1; // Retorna -1 en caso de entrada inválida
+	}
+}
+
 char Interfaz::getMove(Tabla* table) {
     char op = 'x';
     while (op != 'z') {
@@ -79,4 +129,3 @@ char Interfaz::getMove(Tabla* table) {
     }
     return op;
 }
-
