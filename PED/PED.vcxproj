@@ -131,10 +131,12 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controladora.h" />
     <ClInclude Include="Interfaz.h" />
     <ClInclude Include="Tabla.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controladora.cpp" />
     <ClCompile Include="Interfaz.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tabla.cpp" />
