@@ -6,7 +6,7 @@
 #include<conio.h>
 #include<Windows.h>
 
-class Tabla {
+class Tabla {//Juan Pa probando
 public:
     struct Nodo {
         bool punto;
