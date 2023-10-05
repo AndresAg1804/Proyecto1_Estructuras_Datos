@@ -54,7 +54,6 @@ void mostrarPantallaInicial() {
 int Tabla::leerCol(const std::string& nombreArchivo)
 {
     std::ifstream archivo(nombreArchivo);
-
     if (!archivo.is_open()) {
         std::cerr << "Error: No se pudo abrir el archivo " << nombreArchivo << std::endl;
         return 0;
@@ -759,6 +758,51 @@ Tabla* Tabla::restart()
     this->eliminarNodos();
     Tabla* nuevo = new Tabla(this->nomArchivo);
     return nuevo;
+}
+
+bool Tabla::guardar() {
+    try {
+        std::string nombreArchivo = "Guardado.txt";
+        std::ofstream archivo(nombreArchivo);
+
+        if (!archivo.is_open()) {
+            std::cerr << "Error: No se pudo abrir el archivo " << nombreArchivo << std::endl;
+            return false;
+        }
+
+        Nodo* filaActual = this->inicio;
+        while (filaActual != nullptr) {
+            Nodo* nodoActual = filaActual;
+            while (nodoActual != nullptr) {
+                if (nodoActual->data == 'x') {
+					break;
+				}
+                if (nodoActual->data == ' ') { 
+                    archivo << ',';
+                }
+                else {
+                    archivo << nodoActual->data;
+                }
+                // Agrega aquí cualquier otro dato que necesites guardar
+                nodoActual = nodoActual->right;
+            }
+            archivo << '\n'; // Nueva línea para separar filas
+            filaActual = filaActual->down;
+        }
+
+        archivo.close();
+        return true;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error al guardar los nodos: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+
+Tabla::~Tabla()
+{
+	this->eliminarNodos();
 }
 
 
