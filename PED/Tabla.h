@@ -26,6 +26,7 @@ public:
         Nodo(char dat = '.', Nodo* u = nullptr, Nodo* d = nullptr, Nodo* l = nullptr, Nodo* r = nullptr) :data{ dat }, up{ u }, down{ d }, left{ l }, right{ r } {}
         void setdata(char dd) { data = dd; };
     };
+    std::string getNombre();
     virtual ~Tabla();
     //falta la Pila para simluar un contador de "$"
     std::string nomArchivo;

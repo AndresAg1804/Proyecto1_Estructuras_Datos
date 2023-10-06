@@ -11,6 +11,7 @@ public:
 	static int menuJugar();
 	static int menuEscogerNivel();
 	static char getMove(Tabla*);
+	static std::string getRep(Tabla*);
 	static int menuGane();
 	void limpiarPantalla();
 };

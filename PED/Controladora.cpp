@@ -46,6 +46,8 @@ void Controladora::Iniciar()
 			}
 			case 2:
 			{
+				tabla = new Tabla("Guardado.txt");
+				control2();
 				system("pause");
 				system("cls");
 				break;
@@ -148,6 +150,12 @@ void Controladora::control2()
        opcion = Interfaz::getMove(tabla);
        //aqui se llama al metod de los movimientos
    } while (opcion != 'z' && opcion != '\x1b');
+   if (opcion == 'z') {
+	   control4();
+   }
+   else {
+	   control3();
+   }
 }
 
 void Controladora::control3()
@@ -165,6 +173,7 @@ void Controladora::control3()
 			{
 			case 1:
 			{
+				tabla->guardar();
 				system("pause");
 				system("cls");
 				
@@ -174,24 +183,21 @@ void Controladora::control3()
 			}
 			case 2:
 			{
+				tabla = tabla->restart();
+				control2();
 				system("pause");
 				system("cls");
-				tabla->restart();
 				bandera = true;
 				break;
 			}
 			case 3:
 			{
+				std::cout << "Hasta pronto...\n";
 				system("pause");
 				system("cls");
-				tabla = new Tabla("../L3.txt");
+				tabla->restart();
+				//tabla = new Tabla("../L3.txt");
 				//
-				bandera = true;
-				break;
-			}
-			case 4: {
-				system("pause");
-				system("cls");
 				bandera = true;
 				break;
 			}
@@ -230,6 +236,7 @@ void Controladora::control4()
 			{
 			case 1:
 			{
+				tabla->getNombre();
 				system("pause");
 				system("cls");
 
@@ -237,6 +244,7 @@ void Controladora::control4()
 			}
 			case 2:
 			{
+				Interfaz::getRep(tabla);   // repetecion...
 				system("pause");
 				system("cls");
 				break;

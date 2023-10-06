@@ -61,7 +61,6 @@ int Interfaz::menuJugar()
     std::cout << "1. Guardar juego y salir al menu principal\n";
     std::cout << "2. Reiniciar Nivel \n";
     std::cout << "3. Salir al menu principal (No guarda la partida)\n";
-    std::cout << "4. Salir del juego (No guarda la partida)\n";
     std::cout << "Digite una opcion del menu: ";
     if (std::cin >> opc) {
         return opc;
@@ -101,18 +100,18 @@ char Interfaz::getMove(Tabla* table) {
 
         try {
             op = _getch();
+
             std::system("cls");
 
             // Verifica si el movimiento es válido
             bool validMove = false;
 
             switch (op) {
-            case 'w': validMove = table->moveUp(); break;
-            case 'a': validMove = table->moveLeft(); break;
-            case 'd': validMove = table->moveRight(); break;
-            case 's': validMove = table->moveDown(); break;
-           // case 'z': break;
-            case '\x1b': validMove = true; break; // Tecla "ESC
+            case 'w': validMove = table->moveUp(); table->rep.push_back('w'); break;   // 'w' en ASCII  
+            case 'a': validMove = table->moveLeft(); table->rep.push_back('a'); break;  // 'a' en ASCII  
+            case 'd': validMove = table->moveRight(); table->rep.push_back('d'); break; // 'd' en ASCII  
+            case 's': validMove = table->moveDown(); table->rep.push_back('s'); break;  // 's' en ASCII  
+            case '\x1b': break; // 'z' en ASCII
             default: break;
             }
 
@@ -121,14 +120,77 @@ char Interfaz::getMove(Tabla* table) {
                 std::cout << "Movimiento realizado:\n";
             }
             else {
-                std::cout << "Movimiento no valido. Intente de nuevo.\n\n\n";
+                std::cout << "Movimiento no válido. Intente de nuevo.\n\n\n";
             }
         }
         catch (...) {
-            std::cout << "Por favor, ingresa un carácter válido.\n";
+            std::cout << "Por favor, ingrese un carácter válido.\n";
         }
     }
     return op;
+}
+
+std::string Interfaz::getRep(Tabla* table)
+{
+    std::stringstream s;
+    int i = 1;  // Contador de movimientos
+
+    // Limpia la pantalla antes de comenzar
+    std::system("cls");
+
+    // Clona el juego original
+    std::vector <char> rep2;
+    Tabla* clonedGame = table->restart();
+
+    for (char movimiento : table->rep) {
+        // Realiza el movimiento en el juego clonado
+        switch (movimiento) {
+        case 'w':
+            (*clonedGame).moveUp();
+            break;
+        case 'a':
+            (*clonedGame).moveLeft();
+            break;
+        case 'd':
+            (*clonedGame).moveRight();
+            break;
+        case 's':
+            (*clonedGame).moveDown();
+            break;
+        }
+        rep2.push_back(movimiento);
+        clonedGame->rep = rep2;
+        // Limpia la pantalla antes de mostrar el siguiente movimiento
+        std::cout << clonedGame->toString() << '\n';
+        // Imprime el estado del juego después de cada movimiento
+        std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
+
+        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::system("cls");
+
+        // Si el juego clonado ha llegado al estado de ganado, reinícialo
+        i++;
+    }
+
+
+    // Ahora puedes usar rep2 para mostrar la repetición completa
+    //int j = 1;
+    //for (char movimiento : rep2) {
+    //        std::cout << clonedGame->toString() << '\n';
+    //        // Imprime el estado del juego después de cada movimiento
+    //        std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
+
+    //        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
+    //        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    //        std::system("cls");
+
+    //        j++;
+    //}
+
+    // Imprime el estado final del juego
+
+    return s.str();
 }
 
 int Interfaz::menuGane()

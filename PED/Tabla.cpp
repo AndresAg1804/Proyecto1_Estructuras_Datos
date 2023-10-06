@@ -713,6 +713,7 @@ std::string Tabla::getRep() {
             (*clonedGame).moveDown();
             break;
         }
+        rep2.push_back(movimiento); 
         // Limpia la pantalla antes de mostrar el siguiente movimiento
         std::cout << clonedGame->toString() << '\n';
         // Imprime el estado del juego después de cada movimiento
@@ -725,7 +726,6 @@ std::string Tabla::getRep() {
         // Si el juego clonado ha llegado al estado de ganado, reinícialo
         i++;
     }
-
     // Imprime el estado final del juego
 
     return s.str();
@@ -800,6 +800,11 @@ bool Tabla::guardar() {
     }
 }
 
+
+std::string Tabla::getNombre()
+{
+    return nomArchivo;
+}
 
 Tabla::~Tabla()
 {
