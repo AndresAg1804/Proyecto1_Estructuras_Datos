@@ -788,8 +788,9 @@ bool Tabla::guardar() {
             }
             archivo << '\n'; // Nueva línea para separar filas
             filaActual = filaActual->down;
+           // delete nodoActual;
         }
-
+        //delete filaActual;
         archivo.close();
         return true;
     }
