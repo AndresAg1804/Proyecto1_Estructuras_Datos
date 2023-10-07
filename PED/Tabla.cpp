@@ -251,6 +251,7 @@ Tabla::Tabla(const std::string& nombreArchivo) {
         sigUNO = sig;
         row++;
     }
+    archivo.close();
 }
 
 std::string Tabla::toString() {

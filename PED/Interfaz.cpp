@@ -133,7 +133,7 @@ char Interfaz::getMove(Tabla* table) {
 std::string Interfaz::getRep(Tabla* table)
 {
     std::stringstream s;
-    int i = 1;  // Contador de movimientos
+    int i = 0;  // Contador de movimientos
 
     // Limpia la pantalla antes de comenzar
     std::system("cls");
@@ -161,13 +161,14 @@ std::string Interfaz::getRep(Tabla* table)
         rep2.push_back(movimiento);
         clonedGame->rep = rep2;
         // Limpia la pantalla antes de mostrar el siguiente movimiento
-        std::cout << clonedGame->toString() << '\n';
+        std::system("cls");
         // Imprime el estado del juego después de cada movimiento
         std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
 
         // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        std::system("cls");
+        std::cout << clonedGame->toString() << '\n';
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        //std::system("cls");
 
         // Si el juego clonado ha llegado al estado de ganado, reinícialo
         i++;
