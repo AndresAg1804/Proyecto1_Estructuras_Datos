@@ -89,7 +89,7 @@ void Controladora::Control1()
 		try {
 			opc = Interfaz::menuEscogerNivel();
 			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
-				throw std::exception("Error: Debe ingresar un número válido.");
+				throw std::exception("Error: Debe ingresar un número valido.");
 			}
 
 			switch (opc)
@@ -192,7 +192,18 @@ void Controladora::control3()
 			}
 			case 3:
 			{
-				std::cout << "Hasta pronto...\n";
+				
+				system("pause");
+				system("cls");
+				control2();
+				//tabla = new Tabla("../L3.txt");
+				//
+				bandera = true;
+				break;
+			}
+			case 4:
+			{
+
 				system("pause");
 				system("cls");
 				tabla->restart();
@@ -253,7 +264,7 @@ void Controladora::control4()
 			{
 				system("pause");
 				system("cls");
-				std::cout << "Hasta pronto...\n";
+				
 				system("pause");
 				break;
 			}
