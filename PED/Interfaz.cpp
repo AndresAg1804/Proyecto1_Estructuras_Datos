@@ -170,7 +170,7 @@ std::string Interfaz::getRep(Tabla* table)
 
         //// Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
         std::cout << table->toString() << '\n';
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
         //std::system("cls");
 
         // Si el juego clonado ha llegado al estado de ganado, reinícialo
