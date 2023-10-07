@@ -1,7 +1,6 @@
 #pragma once
 #include "Tabla.h"
-#include "ExcepcionRango.h"
-#include "ExcepcionValor.h"
+
 
 class Interfaz
 {

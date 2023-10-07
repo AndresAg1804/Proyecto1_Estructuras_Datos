@@ -24,12 +24,6 @@
     <ClInclude Include="Interfaz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExcepcionValor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExcepcionRango.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tabla.cpp">
@@ -42,12 +36,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Interfaz.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExcepcionValor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExcepcionRango.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
