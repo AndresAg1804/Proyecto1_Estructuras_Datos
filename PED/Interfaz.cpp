@@ -60,7 +60,8 @@ int Interfaz::menuJugar()
     std::cout << "                      MENU                      \n";
     std::cout << "1. Guardar juego y salir al menu principal\n";
     std::cout << "2. Reiniciar Nivel \n";
-    std::cout << "3. Salir al menu principal (No guarda la partida)\n";
+    std::cout << "3. Volver al juego \n";
+    std::cout << "4. Salir al menu principal (No guarda la partida)\n";
     std::cout << "Digite una opcion del menu: ";
     if (std::cin >> opc) {
         return opc;
@@ -134,39 +135,41 @@ std::string Interfaz::getRep(Tabla* table)
 {
     std::stringstream s;
     int i = 0;  // Contador de movimientos
+    int j = 0;
 
     // Limpia la pantalla antes de comenzar
     std::system("cls");
 
     // Clona el juego original
     std::vector <char> rep2;
-    Tabla* clonedGame = table->restart();
-
-    for (char movimiento : table->rep) {
+    //table = table->restart();
+    rep2 = table->rep;
+    table = table->restart();
+    for (char movimiento : rep2) {
         // Realiza el movimiento en el juego clonado
         switch (movimiento) {
         case 'w':
-            (*clonedGame).moveUp();
+            (*table).moveUp();
             break;
         case 'a':
-            (*clonedGame).moveLeft();
+            (*table).moveLeft();
             break;
         case 'd':
-            (*clonedGame).moveRight();
+            (*table).moveRight();
             break;
         case 's':
-            (*clonedGame).moveDown();
+            (*table).moveDown();
             break;
         }
-        rep2.push_back(movimiento);
-        clonedGame->rep = rep2;
+        //rep2.push_back(movimiento);
+        //table->rep = rep2;
         // Limpia la pantalla antes de mostrar el siguiente movimiento
         std::system("cls");
-        // Imprime el estado del juego después de cada movimiento
+        //// Imprime el estado del juego después de cada movimiento
         std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
 
-        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-        std::cout << clonedGame->toString() << '\n';
+        //// Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
+        std::cout << table->toString() << '\n';
         std::this_thread::sleep_for(std::chrono::milliseconds(600));
         //std::system("cls");
 
@@ -174,6 +177,47 @@ std::string Interfaz::getRep(Tabla* table)
         i++;
     }
 
+    //int inicio = 0;
+    //int fin = rep2.size() - 1;
+
+    //while (inicio < fin) {
+    //    // Intercambiar el elemento en la posición 'inicio' con el elemento en la posición 'fin'
+    //    std::swap(rep2[inicio], rep2[fin]);
+
+    //    // Mover los índices hacia adentro
+    //    inicio++;
+    //    fin--;
+    //}
+
+    //table = table->restart();
+    //for (int i = 0; i < rep2.size(); i++) {
+    //    for (char movimiento2 : rep2) {
+    //        // Realiza el movimiento en el juego clonado
+    //        switch (movimiento2) {
+    //        case 'w':
+    //            (*table).moveUp();
+    //            break;
+    //        case 'a':
+    //            (*table).moveLeft();
+    //            break;
+    //        case 'd':
+    //            (*table).moveRight();
+    //            break;
+    //        case 's':
+    //            (*table).moveDown();
+    //            break;
+    //        }
+    //        std::system("cls");
+    //        // Imprime el estado del juego después de cada movimiento
+    //        //std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
+
+    //        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
+    //        rep2.push_back(movimiento2);
+    //        std::cout << table->toString() << '\n';
+    //        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    //        j++;
+    //    }
+    //}
 
     // Ahora puedes usar rep2 para mostrar la repetición completa
     //int j = 1;

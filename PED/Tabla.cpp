@@ -727,6 +727,7 @@ std::string Tabla::getRep() {
         // Si el juego clonado ha llegado al estado de ganado, reinícialo
         i++;
     }
+    //delete clonedGame;
     // Imprime el estado final del juego
 
     return s.str();
@@ -737,18 +738,20 @@ void Tabla::eliminarNodos()
     Nodo* actual = this->inicio;
     Nodo* sig = nullptr;
     Nodo* sigUNO = nullptr;
+    Nodo* ext = nullptr;
 
     while (actual != nullptr)
     {
         sig = actual->right;
-
-        while (actual != nullptr)
+        sigUNO = actual;
+        while (sigUNO != nullptr)
         {
             sigUNO = actual->down;
-            delete actual;
-            actual = sigUNO;
+            ext = actual;
+            actual = actual->down;
+            //actual = sigUNO;
+            delete ext;
         }
-
         actual = sig;
     }
 
@@ -770,7 +773,7 @@ bool Tabla::guardar() {
             std::cerr << "Error: No se pudo abrir el archivo " << nombreArchivo << std::endl;
             return false;
         }
-
+          
         Nodo* filaActual = this->inicio;
         while (filaActual != nullptr) {
             Nodo* nodoActual = filaActual;
@@ -787,8 +790,12 @@ bool Tabla::guardar() {
                 // Agrega aquí cualquier otro dato que necesites guardar
                 nodoActual = nodoActual->right;
             }
-            archivo << '\n'; // Nueva línea para separar filas
             filaActual = filaActual->down;
+            if (filaActual) {
+                archivo << '\n';
+            }
+            // Nueva línea para separar filas
+            //filaActual = filaActual->down;
            // delete nodoActual;
         }
         //delete filaActual;
