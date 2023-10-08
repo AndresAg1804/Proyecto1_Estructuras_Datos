@@ -12,7 +12,8 @@ public:
 	static char getMove(Tabla*);
 	static std::string getRep(Tabla*);
 	static int menuGane();
-	static int siguienteNivel(Tabla*);
+	static Tabla* siguienteNivel(Tabla*);
+	static void mensajeSalida();
 	void limpiarPantalla();
 };
 

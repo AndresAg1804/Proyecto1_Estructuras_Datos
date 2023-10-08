@@ -134,19 +134,16 @@ char Interfaz::getMove(Tabla* table) {
 std::string Interfaz::getRep(Tabla* table)
 {
     std::stringstream s;
-    int i = 0;  // Contador de movimientos
-    int j = 0;
+    int i = 0; 
 
     // Limpia la pantalla antes de comenzar
     std::system("cls");
 
-    // Clona el juego original
     std::vector <char> rep2;
     //table = table->restart();
     rep2 = table->rep;
     table = table->restart();
     for (char movimiento : rep2) {
-        // Realiza el movimiento en el juego clonado
         switch (movimiento) {
         case 'w':
             (*table).moveUp();
@@ -161,79 +158,16 @@ std::string Interfaz::getRep(Tabla* table)
             (*table).moveDown();
             break;
         }
-        //rep2.push_back(movimiento);
-        //table->rep = rep2;
-        // Limpia la pantalla antes de mostrar el siguiente movimiento
+
         std::system("cls");
-        //// Imprime el estado del juego después de cada movimiento
+
         std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
 
-        //// Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
         std::cout << table->toString() << '\n';
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
-        //std::system("cls");
 
-        // Si el juego clonado ha llegado al estado de ganado, reinícialo
         i++;
     }
-
-    //int inicio = 0;
-    //int fin = rep2.size() - 1;
-
-    //while (inicio < fin) {
-    //    // Intercambiar el elemento en la posición 'inicio' con el elemento en la posición 'fin'
-    //    std::swap(rep2[inicio], rep2[fin]);
-
-    //    // Mover los índices hacia adentro
-    //    inicio++;
-    //    fin--;
-    //}
-
-    //table = table->restart();
-    //for (int i = 0; i < rep2.size(); i++) {
-    //    for (char movimiento2 : rep2) {
-    //        // Realiza el movimiento en el juego clonado
-    //        switch (movimiento2) {
-    //        case 'w':
-    //            (*table).moveUp();
-    //            break;
-    //        case 'a':
-    //            (*table).moveLeft();
-    //            break;
-    //        case 'd':
-    //            (*table).moveRight();
-    //            break;
-    //        case 's':
-    //            (*table).moveDown();
-    //            break;
-    //        }
-    //        std::system("cls");
-    //        // Imprime el estado del juego después de cada movimiento
-    //        //std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
-
-    //        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-    //        rep2.push_back(movimiento2);
-    //        std::cout << table->toString() << '\n';
-    //        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-    //        j++;
-    //    }
-    //}
-
-    // Ahora puedes usar rep2 para mostrar la repetición completa
-    //int j = 1;
-    //for (char movimiento : rep2) {
-    //        std::cout << clonedGame->toString() << '\n';
-    //        // Imprime el estado del juego después de cada movimiento
-    //        std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
-
-    //        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-    //        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    //        std::system("cls");
-
-    //        j++;
-    //}
-
-    // Imprime el estado final del juego
 
     return s.str();
 }
@@ -254,25 +188,57 @@ int Interfaz::menuGane()
     }
 }
 
-int Interfaz::siguienteNivel(Tabla* tabla)
+Tabla* Interfaz::siguienteNivel(Tabla* tabla)
 {
     if (tabla->getNombre() == "../Facil.txt")
     {
         delete tabla;
 		tabla = new Tabla("../Medio.txt");
-		return 1;
+		return tabla;
 	}
     else if (tabla->getNombre() == "../Medio.txt")
     {
         delete tabla;
 		tabla = new Tabla("../Dificil.txt");
-		return 1;
+		return tabla;
 	}
     else if (tabla->getNombre() == "../Dificil.txt") {
-        return 2;
+        return tabla;
     }
-    else {
-        return 3;
-    }
+    //else {
+    //    return 3;
+    //}
     return 0;
+}
+
+void Interfaz::mensajeSalida()
+{
+    std::cout << '\n' << '\n';
+
+    std::cout << "Ya no hay mas niveles \n";
+
+    std::cout << '\n' << '\n';
+
+    std::cout << "    ####     ##     ##   ##  #######            #####   ##   ##  #######  ###### \n";
+    std::cout << "   ##  ##   ####    ### ###   ##   #           ##   ##  ##   ##   ##   #   ##  ## \n";
+    std::cout << "  ##       ##  ##   #######   ## #             ##   ##   ## ##    ## #     ##  ## \n";
+    std::cout << "  ##       ##  ##   #######   ####             ##   ##   ## ##    ####     ##### \n";
+    std::cout << "  ##  ###  ######   ## # ##   ## #             ##   ##    ###     ## #     ## ## \n";
+    std::cout << "   ##  ##  ##  ##   ##   ##   ##   #           ##   ##    ###     ##   #   ##  ## \n";
+    std::cout << "    #####  ##  ##   ##   ##  #######            #####      #     #######  #### ## \n";
+
+    std::cout << '\n' << '\n';
+
+    std::cout << "  ##   ##  #######  ##   ##   #####   ######   ##  ##            ####     #######    ##     ###  ##           #### \n";
+    std::cout << "  ### ###   ##   #  ### ###  ##   ##   ##  ##  ##  ##             ##       ##   #   ####     ##  ##          ##  ## \n";
+    std::cout << "  #######   ## #    #######  ##   ##   ##  ##  ##  ##             ##       ## #    ##  ##    ## ##               ## \n";
+    std::cout << "  #######   ####    #######  ##   ##   #####    ####              ##       ####    ##  ##    ####               ## \n";
+    std::cout << "  ## # ##   ## #    ## # ##  ##   ##   ## ##     ##               ##   #   ## #    ######    ## ##             ## \n";
+    std::cout << "  ##   ##   ##   #  ##   ##  ##   ##   ##  ##    ##               ##  ##   ##   #  ##  ##    ##  ##\n";
+    std::cout << "  ##   ##  #######  ##   ##   #####   #### ##   ####             #######  #######  ##  ##   ###  ##            ## \n";
+
+    std::cout << '\n' << '\n';
+
+    std::cout<<"Gracias por jugar Sokoban UNA \n";
+
 }

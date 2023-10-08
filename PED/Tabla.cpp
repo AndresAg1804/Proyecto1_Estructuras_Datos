@@ -1,6 +1,5 @@
 #include "Tabla.h"
 
-
 // ANSI escape codes for text colors
 #define ANSI_RESET "\033[0m" 
 #define ANSI_RED "\033[31m" 
@@ -10,44 +9,6 @@
 #define ANSI_MAGENTA "\033[35m"
 #define ANSI_CYAN "\033[36m"
 #define ANSI_WHITE "\033[37m" 
-
-
-void mostrarPantallaInicial() {
-    // Limpia la pantalla
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-
-    // Tamaño de la pantalla (ancho)
-    int screenWidth = 80;
-
-    // Mensaje "UNA" centrado
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "UNA" << std::endl;
-    std::cout << '\n' << '\n';
-
-    // Arte ASCII centrado
-    std::cout << std::setw((screenWidth - 43) / 2) << "" << "SSSSS  OOO  K   K  OOO  BBBBB    AAA    N   N" << std::endl;
-    std::cout << std::setw((screenWidth - 43) / 2) << "" << "S     O   O K  K  O   O B   B   A   A   NN  N" << std::endl;
-    std::cout << std::setw((screenWidth - 43) / 2) << "" << " SSS  O   O KK    O   O BBBBB  AAAAAAA  N N N" << std::endl;
-    std::cout << std::setw((screenWidth - 43) / 2) << "" << "    S O   O K K   O   O B   B  A     A  N  NN" << std::endl;
-    std::cout << std::setw((screenWidth - 43) / 2) << "" << "SSSSS  OOO  K   K  OOO  BBBBB A       A N   N" << std::endl;
-    std::cout << '\n' << '\n';
-
-    // Mensajes "JUANPA", "ANNER", "MARCOS" centrados
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "JUANPA" << std::endl;
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "ANNER" << std::endl;
-    std::cout << std::setw((screenWidth - 3) / 2) << "" << "MARCOS" << std::endl;
-
-    std::cout << '\n' << '\n' << '\n' << '\n';
-
-    std::cout << "Presiona cualquier tecla para comenzar..." << std::endl;
-
-    // Espera a que el jugador presione una tecla
-    std::cin.ignore();
-    std::cin.get();
-}
 
 
 
@@ -224,6 +185,7 @@ Tabla::Tabla(const std::string& nombreArchivo) {
                 col++;
             }
         }
+        //delete nuevo;
         priFila->down = new Nodo('x', priFila, nullptr, nullptr, nullptr);
         prifilaB = false;
         row++;
@@ -313,64 +275,6 @@ std::string Tabla::movimientos()
     s << "-----------------------" << '\n';
     return s.str();
 }
-
-
-void Tabla::START()
-{
-    mostrarPantallaInicial();
-    char op;
-    do {
-        
-        op = getMove();
-        //aqui se llama al metod de los movimientos
-    } while (op != 'z');
-    getRep();
-}
-
-char Tabla::getMove() {
-    char op = 'x';
-    while (op != 'z') {
-        if (isEnd()) {
-            op = 'z';
-            return op;
-        }
-        std::cout << this->toString();
-        std::cout << '\n' << '\n';
-        std::cout << this->movimientos();
-        std::cout << '\n' << '\n';
-
-        try {
-            op = _getch();
-
-            std::system("cls");
-
-            // Verifica si el movimiento es válido
-            bool validMove = false;
-
-            switch (op) {
-            case 'w': validMove = moveUp(); rep.push_back('w'); break;   // 'w' en ASCII 
-            case 'a': validMove = moveLeft(); rep.push_back('a'); break;  // 'a' en ASCII 
-            case 'd': validMove = moveRight(); rep.push_back('d'); break; // 'd' en ASCII 
-            case 's': validMove = moveDown(); rep.push_back('s'); break;  // 's' en ASCII 
-            case 'z': break; // 'z' en ASCII
-            default: break;
-            }
-
-            if (validMove) {
-                // Realiza el movimiento si es válido
-                std::cout << "Movimiento realizado:\n";
-            }
-            else {
-                std::cout << "Movimiento no válido. Intente de nuevo.\n\n\n";
-            }
-        }
-        catch (...) {
-            std::cout << "Por favor, ingrese un carácter válido.\n";
-        }
-    }
-    return op;
-}
-
 
 bool Tabla::moveUp() {
     if (this->jugador->up) {
@@ -687,74 +591,21 @@ bool Tabla::isEnd()
     return false;
 }
 
-std::string Tabla::getRep() {
-    std::stringstream s;
-    int i = 1;  // Contador de movimientos
-
-    // Limpia la pantalla antes de comenzar
-    std::system("cls");
-
-    // Clona el juego original
-    std::vector <char> rep2;
-    Tabla* clonedGame = this->restart();
-
-    for (char movimiento : this->rep) {
-        // Realiza el movimiento en el juego clonado
-        switch (movimiento) {
-        case 'w':
-            (*clonedGame).moveUp();
-            break;
-        case 'a':
-            (*clonedGame).moveLeft();
-            break;
-        case 'd':
-            (*clonedGame).moveRight();
-            break;
-        case 's':
-            (*clonedGame).moveDown();
-            break;
-        }
-        rep2.push_back(movimiento); 
-        // Limpia la pantalla antes de mostrar el siguiente movimiento
-        std::cout << clonedGame->toString() << '\n';
-        // Imprime el estado del juego después de cada movimiento
-        std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
-
-        // Espera un momento antes de mostrar el siguiente movimiento (ajusta la duración según sea necesario)
-        std::this_thread::sleep_for(std::chrono::milliseconds(800));
-        std::system("cls");
-
-        // Si el juego clonado ha llegado al estado de ganado, reinícialo
-        i++;
-    }
-    //delete clonedGame;
-    // Imprime el estado final del juego
-
-    return s.str();
-}
-
 void Tabla::eliminarNodos()
 {
     Nodo* actual = this->inicio;
-    Nodo* sig = nullptr;
-    Nodo* sigUNO = nullptr;
-    Nodo* ext = nullptr;
-
     while (actual != nullptr)
     {
-        sig = actual->right;
-        sigUNO = actual;
-        while (sigUNO != nullptr)
+        Nodo* filaActual = actual;
+        actual = actual->down; // Avanza a la siguiente fila
+        while (filaActual != nullptr)
         {
-            sigUNO = actual->down;
-            ext = actual;
-            actual = actual->down;
-            //actual = sigUNO;
-            delete ext;
+            Nodo* nodoActual = filaActual;
+            filaActual = filaActual->right; // Avanza al siguiente nodo en la misma fila
+            delete nodoActual; // Libera la memoria del nodo actual
         }
-        actual = sig;
     }
-
+    this->inicio = nullptr; // Asegúrate de que la tabla esté vacía después de eliminar todos los nodos
 }
 
 Tabla* Tabla::restart()

@@ -245,8 +245,14 @@ void Controladora::control4()
 			{
 			case 1:
 			{
-				//Interfaz::siguienteNivel(tabla); esto va en un control
-				control2();
+				if (tabla->getNombre() != "../Dificil.txt") {
+					control6();  //siguiente nivel...
+					control2();
+				}
+				else {
+					system("cls");
+					control7();  //mensaje de salida...
+				}
 				system("pause");
 				system("cls");
 
@@ -290,4 +296,14 @@ void Controladora::control4()
 void Controladora::control5()
 {
 	Interfaz::getRep(tabla);
+}
+
+void Controladora::control6()
+{
+	tabla = Interfaz::siguienteNivel(tabla);
+}
+
+void Controladora::control7()
+{
+	Interfaz::mensajeSalida();
 }
