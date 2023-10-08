@@ -309,7 +309,7 @@ std::string Tabla::movimientos()
     s << "  D: Mover Derecha" << '\n';
     s << "  S: Mover Abajo" << '\n';
     s << "-----------------------" << '\n';
-    s << "  Z: Salir del Juego" << '\n';
+    s << "  ESC: Menu de pausa" << '\n';
     s << "-----------------------" << '\n';
     return s.str();
 }

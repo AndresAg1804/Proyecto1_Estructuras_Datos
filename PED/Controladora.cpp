@@ -32,7 +32,7 @@ void Controladora::Iniciar()
 		try{
 			opc = Interfaz::menuPrincipal();
 			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
-				throw std::exception("Error: Debe ingresar un número válido.");
+				throw std::exception("Error: Debe ingresar un numero valido.");
 			}	
 		
 			switch (opc)
@@ -89,7 +89,7 @@ void Controladora::Control1()
 		try {
 			opc = Interfaz::menuEscogerNivel();
 			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
-				throw std::exception("Error: Debe ingresar un número valido.");
+				throw std::exception("Error: Debe ingresar un numero valido.");
 			}
 
 			switch (opc)
@@ -98,7 +98,7 @@ void Controladora::Control1()
 			{
 				system("pause");
 				system("cls");
-				tabla = new Tabla("../L1.txt");
+				tabla = new Tabla("../Facil.txt");
 				control2();
 				bandera = true;
 				break;
@@ -107,7 +107,7 @@ void Controladora::Control1()
 			{
 				system("pause");
 				system("cls");
-				tabla = new Tabla("../L2.txt");
+				tabla = new Tabla("../Medio.txt");
 				control2();
 				bandera = true;
 				break;
@@ -116,7 +116,7 @@ void Controladora::Control1()
 			{
 				system("pause");
 				system("cls");
-				tabla = new Tabla("../L3.txt");
+				tabla = new Tabla("../Dificil.txt");
 				control2();
 				bandera = true;
 				break;
@@ -166,7 +166,7 @@ void Controladora::control3()
 		try {
 			opc = Interfaz::menuJugar();
 			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
-				throw std::exception("Error: Debe ingresar un número válido.");
+				throw std::exception("Error: Debe ingresar un numero valido.");
 			}
 
 			switch (opc)
@@ -196,8 +196,7 @@ void Controladora::control3()
 				system("pause");
 				system("cls");
 				control2();
-				//tabla = new Tabla("../L3.txt");
-				//
+				
 				bandera = true;
 				break;
 			}
@@ -207,8 +206,7 @@ void Controladora::control3()
 				system("pause");
 				system("cls");
 				tabla->restart();
-				//tabla = new Tabla("../L3.txt");
-				//
+				
 				bandera = true;
 				break;
 			}
@@ -240,14 +238,15 @@ void Controladora::control4()
 		try {
 			opc = Interfaz::menuGane();
 			if (opc == -1) { 
-				throw std::exception("Error: Debe ingresar un número válido.");
+				throw std::exception("Error: Debe ingresar un numero valido.");
 			}
 
 			switch (opc)
 			{
 			case 1:
 			{
-				tabla->getNombre();
+				//Interfaz::siguienteNivel(tabla); esto va en un control
+				control2();
 				system("pause");
 				system("cls");
 
@@ -255,7 +254,7 @@ void Controladora::control4()
 			}
 			case 2:
 			{
-				Interfaz::getRep(tabla);   // repetecion...
+				control5();   // repetecion...
 				system("pause");
 				system("cls");
 				break;
@@ -265,7 +264,6 @@ void Controladora::control4()
 				system("pause");
 				system("cls");
 				
-				system("pause");
 				break;
 			}
 			default: {
@@ -291,4 +289,5 @@ void Controladora::control4()
 
 void Controladora::control5()
 {
+	Interfaz::getRep(tabla);
 }

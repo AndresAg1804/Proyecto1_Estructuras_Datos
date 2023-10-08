@@ -253,3 +253,26 @@ int Interfaz::menuGane()
         return -1; // Retorna -1 en caso de entrada inválida
     }
 }
+
+int Interfaz::siguienteNivel(Tabla* tabla)
+{
+    if (tabla->getNombre() == "../Facil.txt")
+    {
+        delete tabla;
+		tabla = new Tabla("../Medio.txt");
+		return 1;
+	}
+    else if (tabla->getNombre() == "../Medio.txt")
+    {
+        delete tabla;
+		tabla = new Tabla("../Dificil.txt");
+		return 1;
+	}
+    else if (tabla->getNombre() == "../Dificil.txt") {
+        return 2;
+    }
+    else {
+        return 3;
+    }
+    return 0;
+}

@@ -15,6 +15,7 @@ public:
 	void control3();
 	void control4();
 	void control5();
+	void control6();
 	/*void Ingresar();
 	void Mostrar();
 	void Buscar();
