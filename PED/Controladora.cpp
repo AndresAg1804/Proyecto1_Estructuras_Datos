@@ -40,7 +40,8 @@ void Controladora::Iniciar()
 			case 2:
 			{
 				tabla = new Tabla("Guardado.txt");
-				control2();
+				if(tabla->col != 0) 
+					control2();
 				system("pause");
 				system("cls");
 				break;
