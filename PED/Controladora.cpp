@@ -145,7 +145,6 @@ void Controladora::control2()
    } while (opcion != 'z' && opcion != '\x1b');
    if (opcion == 'z') {
 	   control4();
-
    }
    else {
 	   control3();
@@ -243,6 +242,7 @@ void Controladora::control4()
 				if (tabla->getNombre() != "../Dificil.txt" && tabla->getNombre() != "Guardado.txt") {
 					control6();  //siguiente nivel...
 					control2();
+					return; // para que no se repita el menu de ganar si avanza al siguiente nivel...
 					break;
 
 				}
