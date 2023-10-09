@@ -1,4 +1,3 @@
-#include "Tabla.h"
 #include "Controladora.h"
 
 int main(void) {

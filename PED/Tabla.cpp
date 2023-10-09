@@ -581,14 +581,6 @@ bool Tabla::moveRight() {
     return false;
 }
 
-bool Tabla::isEnd()
-{
-    if (this->endGAME.empty()) {
-        std::cout << "Win Win!!!" << '\n';
-		return true;
-	}
-    return false;
-}
 
 void Tabla::eliminarNodos()
 {

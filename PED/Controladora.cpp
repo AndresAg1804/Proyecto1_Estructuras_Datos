@@ -81,7 +81,7 @@ void Controladora::Control1()
 	do {
 		try {
 			opc = Interfaz::menuEscogerNivel();
-			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
+			if (opc == -1) { // Verifica si menu retorno -1 (entrada invalida)
 				throw std::exception("Error: Debe ingresar un numero valido.");
 			}
 
@@ -120,7 +120,7 @@ void Controladora::Control1()
 			}
 			}
 		}
-		catch (const std::exception& e) { // Captura la excepción de menuPrincipal()
+		catch (const std::exception& e) { // Captura la excepción de menu
 
 			std::cout << e.what() << std::endl;
 
@@ -159,7 +159,7 @@ void Controladora::control3()
 	do {
 		try {
 			opc = Interfaz::menuJugar();
-			if (opc == -1) { // Verifica si menuPrincipal() retornó -1 (entrada inválida)
+			if (opc == -1) { // Verifica si menu retorno -1 (entrada invalida)
 				throw std::exception("Error: Debe ingresar un numero valido.");
 			}
 
@@ -179,8 +179,8 @@ void Controladora::control3()
 			{
 				tabla = tabla->restart();
 				control2();
-				system("pause");
-				system("cls");
+				return;
+				
 				bandera = true;
 				break;
 			}
@@ -201,6 +201,7 @@ void Controladora::control3()
 				system("cls");
 				tabla->restart();
 				
+				
 				bandera = true;
 				break;
 			}
@@ -210,7 +211,7 @@ void Controladora::control3()
 			}
 			}
 		}
-		catch (const std::exception& e) { // Captura la excepción de menuPrincipal()
+		catch (const std::exception& e) { // Captura la excepción de menu
 
 			std::cout << e.what() << std::endl;
 
@@ -252,8 +253,7 @@ void Controladora::control4()
 					control7();  //mensaje de salida...
 					break;
 				}
-				//system("pause");
-				//system("cls");
+				
 			}
 			case 2:
 			{
@@ -274,7 +274,7 @@ void Controladora::control4()
 			}
 			}
 		}
-		catch (const std::exception& e) { // Captura la excepción de menuPrincipal()
+		catch (const std::exception& e) { // Captura la excepción de menu
 
 			std::cout << e.what() << std::endl;
 

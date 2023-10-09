@@ -90,7 +90,8 @@ int Interfaz::menuEscogerNivel()
 char Interfaz::getMove(Tabla* table) {
     char op = 'x';
     while (op != '\x1b') {
-        if (table->isEnd()) {
+        if (table->endGAME.empty()) {
+            std::cout << "Win Win!!!" << '\n';
             op = 'z';
             return op;
         }
@@ -112,7 +113,7 @@ char Interfaz::getMove(Tabla* table) {
             case 'a': validMove = table->moveLeft(); table->rep.push_back('a'); break;  // 'a' en ASCII  
             case 'd': validMove = table->moveRight(); table->rep.push_back('d'); break; // 'd' en ASCII  
             case 's': validMove = table->moveDown(); table->rep.push_back('s'); break;  // 's' en ASCII  
-            case '\x1b': break; // 'z' en ASCII
+            case '\x1b': validMove = true; break; // 'z' en ASCII
             default: break;
             }
 
@@ -121,11 +122,11 @@ char Interfaz::getMove(Tabla* table) {
                 std::cout << "Movimiento realizado:\n";
             }
             else {
-                std::cout << "Movimiento no válido. Intente de nuevo.\n\n\n";
+                std::cout << "Movimiento no valido. Intente de nuevo.\n\n\n";
             }
         }
         catch (...) {
-            std::cout << "Por favor, ingrese un carácter válido.\n";
+            std::cout << "Por favor, ingrese un caracter valido.\n";
         }
     }
     return op;
