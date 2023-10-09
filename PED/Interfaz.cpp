@@ -164,7 +164,7 @@ std::string Interfaz::getRep(Tabla* table)
         std::cout << "Movimiento #" << i << " '" << movimiento << "':\n";
 
         std::cout << table->toString() << '\n';
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        std::this_thread::sleep_for(std::chrono::milliseconds(225));
 
         i++;
     }
