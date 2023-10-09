@@ -17,13 +17,5 @@ public:
 	void control5();
 	void control6();
 	void control7();
-	/*void Ingresar();
-	void Mostrar();
-	void Buscar();
-	void Eliminar();
-	void Modificar();
-	void Guardar();
-	void Cargar();
-	void Salir();*/
 };
 

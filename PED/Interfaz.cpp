@@ -140,7 +140,6 @@ std::string Interfaz::getRep(Tabla* table)
     std::system("cls");
 
     std::vector <char> rep2;
-    //table = table->restart();
     rep2 = table->rep;
     table = table->restart();
     for (char movimiento : rep2) {
@@ -205,9 +204,6 @@ Tabla* Interfaz::siguienteNivel(Tabla* tabla)
     else if (tabla->getNombre() == "../Dificil.txt") {
         return tabla;
     }
-    //else {
-    //    return 3;
-    //}
     return 0;
 }
 

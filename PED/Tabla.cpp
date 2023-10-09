@@ -261,7 +261,6 @@ std::string Tabla::toString() {
 std::string Tabla::movimientos()
 {
     std::stringstream s;
-    //setColor(3); // Establece el color a amarillo
     s << "===========================" << '\n';
     s << "  Controles de Movimiento  " << '\n';
     s << "===========================" << '\n';
@@ -605,7 +604,7 @@ void Tabla::eliminarNodos()
             delete nodoActual; // Libera la memoria del nodo actual
         }
     }
-    this->inicio = nullptr; // Asegúrate de que la tabla esté vacía después de eliminar todos los nodos
+    this->inicio = nullptr;
 }
 
 Tabla* Tabla::restart()
@@ -638,18 +637,13 @@ bool Tabla::guardar() {
                 else {
                     archivo << nodoActual->data;
                 }
-                // Agrega aquí cualquier otro dato que necesites guardar
                 nodoActual = nodoActual->right;
             }
             filaActual = filaActual->down;
             if (filaActual) {
                 archivo << '\n';
             }
-            // Nueva línea para separar filas
-            //filaActual = filaActual->down;
-           // delete nodoActual;
         }
-        //delete filaActual;
         archivo.close();
         return true;
     }

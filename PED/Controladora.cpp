@@ -13,13 +13,6 @@ Controladora::~Controladora()
 void Controladora::Menu()
 {
 	Interfaz::mostrarPantallaInicial();
-    //Menu();
-    //char opcion = ' ';
-    //do {
-
-    //    opcion = Interfaz::getMove(tabla);
-    //    //aqui se llama al metod de los movimientos
-    //} while (opcion != 'z');
 }
 
 
@@ -148,14 +141,16 @@ void Controladora::control2()
    do {
 
        opcion = Interfaz::getMove(tabla);
-       //aqui se llama al metod de los movimientos
+
    } while (opcion != 'z' && opcion != '\x1b');
    if (opcion == 'z') {
 	   control4();
+
    }
    else {
 	   control3();
    }
+   return;
 }
 
 void Controladora::control3()
@@ -245,18 +240,20 @@ void Controladora::control4()
 			{
 			case 1:
 			{
-				if (tabla->getNombre() != "../Dificil.txt") {
+				if (tabla->getNombre() != "../Dificil.txt" && tabla->getNombre() != "Guardado.txt") {
 					control6();  //siguiente nivel...
 					control2();
+					break;
+
 				}
 				else {
+					system("pause");
 					system("cls");
 					control7();  //mensaje de salida...
+					break;
 				}
-				system("pause");
-				system("cls");
-
-				break;
+				//system("pause");
+				//system("cls");
 			}
 			case 2:
 			{
@@ -269,7 +266,6 @@ void Controladora::control4()
 			{
 				system("pause");
 				system("cls");
-				
 				break;
 			}
 			default: {

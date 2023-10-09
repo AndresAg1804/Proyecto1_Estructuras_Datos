@@ -14,6 +14,5 @@ public:
 	static int menuGane();
 	static Tabla* siguienteNivel(Tabla*);
 	static void mensajeSalida();
-	void limpiarPantalla();
 };
 

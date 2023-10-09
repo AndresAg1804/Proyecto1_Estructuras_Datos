@@ -28,7 +28,6 @@ public:
     };
     std::string getNombre();
     virtual ~Tabla();
-    //falta la Pila para simluar un contador de "$"
     std::string nomArchivo;
     int col;
     int fil;
@@ -41,14 +40,11 @@ public:
     Tabla(const std::string& nombreArchivo);
     std::string toString();
     std::string movimientos();
-    void START();
-    char getMove();
     bool moveUp();
     bool moveDown();
     bool moveLeft();
     bool moveRight();
     bool isEnd();
-    std::string getRep();
     void eliminarNodos();
     Tabla* restart();
     bool guardar();
